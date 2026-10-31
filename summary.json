@@ -1,0 +1,131 @@
+[
+  {
+    "file": "2026-10-31.html",
+    "report_date": "2026-10-31",
+    "data_date": "2026-10-30",
+    "week": "44/2026",
+    "regime": "bull",
+    "close": 7580.07,
+    "week_pct": -0.00572,
+    "selling_climax": {
+      "sp500": 7,
+      "nasdaq100": 2,
+      "russell2000": 2,
+      "dow30": 0
+    },
+    "new_lows": {
+      "sp500": 20,
+      "nasdaq100": 7,
+      "russell2000": 6,
+      "dow30": 1
+    },
+    "ma_crosses_sp500": 36,
+    "price_cross_sp500": 45,
+    "smi_oversold_turning_sp500": 26,
+    "highlights_sp500": [
+      "CHTR",
+      "TMUS",
+      "TKO",
+      "MGM",
+      "CBRE",
+      "WYNN",
+      "FSLR",
+      "ARES",
+      "IP",
+      "KKR"
+    ],
+    "backtest_expectancy": {
+      "ma": 0.01164,
+      "pc": 0.01392,
+      "smi": 0.0253,
+      "sc": 0.02899,
+      "base": 0.00966
+    }
+  },
+  {
+    "file": "2026-10-24.html",
+    "report_date": "2026-10-24",
+    "data_date": "2026-10-23",
+    "week": "43/2026",
+    "regime": "bull",
+    "close": 7623.68,
+    "week_pct": -0.004669,
+    "selling_climax": {
+      "sp500": 1,
+      "nasdaq100": 0,
+      "russell2000": 2,
+      "dow30": 0
+    },
+    "new_lows": {
+      "sp500": 12,
+      "nasdaq100": 4,
+      "russell2000": 7,
+      "dow30": 0
+    },
+    "ma_crosses_sp500": 93,
+    "price_cross_sp500": 55,
+    "smi_oversold_turning_sp500": 39,
+    "highlights_sp500": [
+      "SKYD",
+      "COO",
+      "XYL",
+      "PNR",
+      "AON",
+      "CPT",
+      "HRL",
+      "FICO",
+      "LHX",
+      "ALGN"
+    ],
+    "backtest_expectancy": {
+      "ma": 0.01158,
+      "pc": 0.01389,
+      "smi": 0.02316,
+      "sc": 0.03052,
+      "base": 0.0095
+    }
+  },
+  {
+    "file": "2026-10-17.html",
+    "report_date": "2026-10-17",
+    "data_date": "2026-10-16",
+    "week": "42/2026",
+    "regime": "bull",
+    "close": 7659.44,
+    "week_pct": -0.019471,
+    "selling_climax": {
+      "sp500": 12,
+      "nasdaq100": 1,
+      "russell2000": 2,
+      "dow30": 0
+    },
+    "new_lows": {
+      "sp500": 16,
+      "nasdaq100": 4,
+      "russell2000": 11,
+      "dow30": 0
+    },
+    "ma_crosses_sp500": 177,
+    "price_cross_sp500": 58,
+    "smi_oversold_turning_sp500": 44,
+    "highlights_sp500": [
+      "HRL",
+      "MLM",
+      "CHTR",
+      "HII",
+      "CRH",
+      "EFX",
+      "CMS",
+      "CPRT",
+      "HD",
+      "DHI"
+    ],
+    "backtest_expectancy": {
+      "ma": 0.01151,
+      "pc": 0.0138,
+      "smi": 0.02334,
+      "sc": 0.03081,
+      "base": 0.00945
+    }
+  }
+]

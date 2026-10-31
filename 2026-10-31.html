@@ -1,0 +1,2585 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Wochenbericht KW 44/2026</title>
+<style>
+:root {
+  --bg: #f6f5f1;
+  --surface: #ffffff;
+  --surface-2: #f0efe9;
+  --text: #1c1b18;
+  --muted: #6b6960;
+  --border: #e3e1d8;
+  --up: #1f8a4c;
+  --up-soft: #e3f3e9;
+  --down: #c2410c;
+  --down-soft: #fbe9df;
+  --series-1: #2557d6;
+  --series-2: #d4a017;
+  --series-3: #8a8676;
+  --shadow: 0 1px 2px rgba(28, 27, 24, .04), 0 4px 16px rgba(28, 27, 24, .05);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121211;
+    --surface: #1c1c1a;
+    --surface-2: #252522;
+    --text: #edebe4;
+    --muted: #9a978c;
+    --border: #2f2e2a;
+    --up: #4ccf83;
+    --up-soft: #173324;
+    --down: #ff8a5c;
+    --down-soft: #3a2117;
+    --series-1: #7aa2ff;
+    --series-2: #e8bd4a;
+    --series-3: #8d8a7e;
+    --shadow: none;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121211; --surface: #1c1c1a; --surface-2: #252522; --text: #edebe4;
+  --muted: #9a978c; --border: #2f2e2a; --up: #4ccf83; --up-soft: #173324;
+  --down: #ff8a5c; --down-soft: #3a2117; --series-1: #7aa2ff; --series-2: #e8bd4a;
+  --series-3: #8d8a7e; --shadow: none; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 960px; margin: 0 auto; padding: 32px 16px 48px; }
+header.top { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+header.top h1 { margin: 0; font-size: 28px; letter-spacing: -.02em; }
+header.top .meta { color: var(--muted); font-size: 13px; }
+header.top a { color: var(--muted); text-decoration: none; font-size: 13px; }
+header.top a:hover { color: var(--text); }
+h2, h3 { margin: 0; letter-spacing: -.01em; }
+h3 { font-size: 15px; margin-bottom: 12px; }
+
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; box-shadow: var(--shadow); }
+section { margin-bottom: 16px; }
+
+.hero { display: flex; gap: 20px; align-items: center; border-left: 5px solid; }
+.hero.bull { border-left-color: var(--up); }
+.hero.bear { border-left-color: var(--down); }
+.hero-badge { font-size: 52px; line-height: 1; width: 84px; height: 84px; flex: none; display: grid; place-items: center; border-radius: 50%; }
+.hero.bull .hero-badge { background: var(--up-soft); }
+.hero.bear .hero-badge { background: var(--down-soft); }
+.eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.hero-title { font-size: 34px; margin: 2px 0 6px; }
+.hero.bull .hero-title { color: var(--up); }
+.hero.bear .hero-title { color: var(--down); }
+.hero-text { margin: 0; max-width: 62ch; }
+
+.up { color: var(--up); }
+.down { color: var(--down); }
+.flat { color: var(--muted); }
+
+.card-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; }
+.legend { display: flex; gap: 14px; font-size: 12px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { display: inline-block; width: 16px; height: 0; border-top: 2px solid; }
+.sw.px { border-color: var(--series-1); }
+.sw.s50 { border-color: var(--series-2); }
+.sw.s200 { border-color: var(--series-3); border-top-style: dashed; }
+
+.chart { width: 100%; height: auto; display: block; }
+.chart .grid { stroke: var(--border); stroke-width: 1; }
+.chart .axis { stroke: var(--muted); stroke-width: 1; opacity: .5; }
+.chart .tick { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.chart .line { fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.chart .px { stroke: var(--series-1); stroke-width: 2; }
+.chart .s50 { stroke: var(--series-2); stroke-width: 1.5; }
+.chart .s200 { stroke: var(--series-3); stroke-width: 1.5; stroke-dasharray: 5 4; }
+.chart .dot { fill: var(--series-1); stroke: var(--surface); stroke-width: 2; }
+
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.grid2 > .card { min-width: 0; }
+.pill { flex: none; font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: 999px; white-space: nowrap; }
+.pill.up { background: var(--up-soft); color: var(--up); }
+.pill.down { background: var(--down-soft); color: var(--down); }
+.muted { color: var(--muted); font-size: 13px; margin: 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { text-align: left; font-weight: 500; color: var(--muted); font-size: 12px; border-bottom: 1px solid var(--border); padding: 6px 4px; }
+td { padding: 7px 4px; border-bottom: 1px solid var(--border); }
+tr:last-child td { border-bottom: 0; }
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* Reiter */
+.tabs { position: sticky; top: 0; z-index: 5; display: flex; flex-wrap: wrap; gap: 4px; margin: 0 -16px 20px;
+  padding: 8px 16px; background: var(--bg); border-bottom: 1px solid var(--border); }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { flex: none; padding: 8px 14px; border-radius: 9px; color: var(--muted); text-decoration: none; font-weight: 550; font-size: 14px; white-space: nowrap; }
+.tab:hover { color: var(--text); background: var(--surface-2); }
+.tab[aria-selected="true"] { color: var(--text); background: var(--surface); box-shadow: inset 0 0 0 1px var(--border), var(--shadow); }
+.tab-panel > section:first-child .section-head, .tab-panel > .section-head:first-child { margin-top: 4px; }
+[hidden] { display: none !important; }
+
+/* RSI-Ranglisten */
+.section-head { margin: 28px 0 12px; }
+.section-head h2 { font-size: 20px; }
+.section-head .muted { margin-top: 4px; max-width: 75ch; }
+.rsi-card h3 { margin-bottom: 8px; }
+.rsi-table { table-layout: fixed; }
+.rsi-table th:nth-child(1), .rsi-table td.rk { width: 26px; }
+.rsi-table th:nth-child(2), .rsi-table td.mvc { width: 52px; }
+.rsi-table th:nth-child(4) { width: 92px; }
+.rsi-table th:nth-child(5) { width: 66px; }
+.rsi-table td { padding: 6px 4px; }
+.rk { color: var(--muted); font-variant-numeric: tabular-nums; }
+.stock { overflow: hidden; }
+.stock b { display: block; font-weight: 650; }
+.stock span { display: block; color: var(--muted); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mv { display: inline-block; min-width: 38px; text-align: center; font-size: 11px; font-weight: 650; padding: 1px 6px; border-radius: 6px; font-variant-numeric: tabular-nums; }
+.mv.up { background: var(--up-soft); color: var(--up); }
+.mv.down { background: var(--down-soft); color: var(--down); }
+.mv.flat { background: var(--surface-2); color: var(--muted); }
+.mv.new { background: var(--surface-2); color: var(--series-1); }
+.rsi { position: relative; font-weight: 600; }
+.rsi .bar { position: absolute; left: 4px; right: 44px; top: 50%; height: 4px; margin-top: -2px; border-radius: 2px; background: var(--surface-2); overflow: hidden; }
+.rsi .bar::after { content: ""; position: absolute; inset: 0 auto 0 0; width: var(--v); background: var(--series-1); border-radius: 2px; }
+.rsi.hot { color: var(--down); }
+.rsi.hot .bar::after { background: var(--down); }
+
+.filter { display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 6px; background: var(--surface-2);
+  color: var(--muted); font-size: 11px; font-weight: 500; vertical-align: 2px; }
+.footnote { margin: -6px 0 16px; font-size: 12px; }
+
+/* Selling Climax */
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+.tile { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; box-shadow: var(--shadow); min-width: 0; }
+.tile-label { font-size: 12px; color: var(--muted); }
+.tile-value { font-size: 26px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.tile-sub { font-size: 12px; color: var(--muted); }
+.climax-card { margin-bottom: 16px; }
+.table-scroll { overflow-x: auto; margin: 0 -4px; }
+.climax-table { min-width: 800px; }
+.climax-table th:first-child { width: 30%; }
+.climax-table td { padding: 7px 6px; white-space: nowrap; }
+.climax-table td.stock { white-space: normal; max-width: 240px; }
+.vol { display: inline-block; padding: 1px 7px; border-radius: 6px; background: var(--surface-2); font-weight: 600; font-variant-numeric: tabular-nums; }
+.vol.hot { background: var(--down-soft); color: var(--down); }
+.more { margin-top: 10px; }
+.more summary { cursor: pointer; color: var(--series-1); font-size: 13px; font-weight: 550; padding: 6px 0; }
+.empty { padding: 6px 0 2px; }
+
+/* Chance/Risiko */
+.bt-table td:first-child { white-space: normal; }
+.base-row td { border-top: 2px solid var(--border); color: var(--muted); }
+.hl-cr-table th:first-child, .hl-cr-table .rk { width: 48px; }
+.hl-cr-table th:nth-child(2) { width: 20%; }
+.footnote-in { margin-top: 10px; font-size: 12px; }
+.sigs { white-space: normal !important; max-width: 200px; }
+.sigs .pill { display: inline-block; margin: 1px 4px 1px 0; font-size: 10.5px; padding: 1px 7px; }
+.pill.sig-ma, .pill.sig-pc { background: var(--up-soft); color: var(--up); }
+.pill.sig-smi { background: color-mix(in srgb, var(--series-1) 14%, transparent); color: var(--series-1); }
+.pill.sig-sc { background: var(--down-soft); color: var(--down); }
+
+/* Highlights */
+.pill.sc { background: var(--down-soft); color: var(--down); margin-left: 6px; vertical-align: 1px; font-size: 10.5px; padding: 1px 7px; }
+.sc-row td { background: color-mix(in srgb, var(--down-soft) 45%, transparent); }
+.sc-card { border-left: 4px solid var(--down); }
+.pill.pc, .pill.smi { margin-left: 6px; vertical-align: 1px; font-size: 10.5px; padding: 1px 7px; }
+.pill.pc { background: var(--up-soft); color: var(--up); }
+.pill.smi { background: color-mix(in srgb, var(--series-1) 14%, transparent); color: var(--series-1); }
+.pc-row td { background: color-mix(in srgb, var(--up-soft) 55%, transparent); }
+.pc-card { border-left: 4px solid var(--up); }
+.stock .pill { display: inline-block; width: auto; overflow: visible; white-space: nowrap; font-size: 10.5px; margin-top: 0; }
+.hl-table th:first-child, .hl-table .rk { width: 48px; }
+.hl-table th:nth-child(2) { width: 21%; }
+.hl-table th:last-child, .hl-table td:last-child { padding-right: 10px; }
+.hl-table th { white-space: nowrap; }
+.score { position: relative; font-weight: 650; min-width: 72px; }
+.score .bar { position: absolute; left: 6px; right: 34px; top: 50%; height: 4px; margin-top: -2px; border-radius: 2px; background: var(--surface-2); overflow: hidden; }
+.score .bar::after { content: ""; position: absolute; inset: 0 auto 0 0; width: var(--v); background: var(--series-1); border-radius: 2px; }
+
+.notice { background: var(--down-soft); color: var(--down); border-radius: 10px; padding: 10px 14px; margin-bottom: 16px; font-size: 14px; }
+footer { color: var(--muted); font-size: 12px; margin-top: 28px; line-height: 1.6; }
+footer details summary { cursor: pointer; }
+
+/* Übersicht */
+.report-list { display: grid; gap: 8px; }
+.report-row { display: grid; grid-template-columns: 1fr auto 110px 90px; gap: 12px; align-items: center; padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; color: inherit; text-decoration: none; box-shadow: var(--shadow); }
+.report-row:hover { border-color: var(--series-1); }
+.report-row.latest { border-left: 4px solid var(--series-1); }
+.rr-date { font-weight: 600; }
+.rr-num { text-align: right; font-variant-numeric: tabular-nums; }
+
+@media (max-width: 720px) {
+  .wrap { padding-top: 20px; }
+  .grid2 { grid-template-columns: 1fr; }
+  .hero { flex-direction: column; align-items: flex-start; }
+  .hero-title { font-size: 28px; }
+  .rsi .bar { display: none; }
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tabs { gap: 2px; position: static; }
+  .tab { padding: 7px 8px; font-size: 13px; letter-spacing: -.01em; }
+  .rsi-table th:nth-child(4) { width: 46px; }
+  .report-row { grid-template-columns: 1fr auto; }
+  .report-row .rr-num:nth-of-type(3) { text-align: left; }
+}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">Marktbericht · KW 44/2026</div>
+      <h1>Wochenbericht</h1>
+      <div class="meta">31. Oktober 2026 · Daten bis Handelsschluss 30.10.2026</div>
+    </div>
+    <a href="index.html">← Alle Berichte</a>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Berichtsteile"><a class="tab" role="tab" href="#market">Market</a><a class="tab" role="tab" href="#rsi">Relative Strength Index</a><a class="tab" role="tab" href="#selling-climax">Selling Climax</a><a class="tab" role="tab" href="#moving-average">Moving Average</a><a class="tab" role="tab" href="#smi">Stochastic Momentum Index</a><a class="tab" role="tab" href="#chance-risk">Chance/Risiko</a><a class="tab" role="tab" href="#highlight-sp500">Highlight SP500</a></nav>
+
+  
+  <div class="tab-panel" id="market" role="tabpanel">
+<section class="card hero bull">
+  <div class="hero-badge" aria-hidden="true">🐂</div>
+  <div>
+    <div class="eyebrow">S&amp;P 500 · Marktphase</div>
+    <h2 class="hero-title">Bullenmarkt</h2>
+    <p class="hero-text">Der S&amp;P 500 ist seit seinem Tief vom 12. Oktober 2022 (3.577,03) um +111,9 % gestiegen. Die 20-%-Schwelle wurde am 08.06.2023 überschritten. Die Phase dauert seit 4 Jahren und 1 Monat.</p>
+  </div>
+</section>
+
+<section class="card">
+  <div class="card-head">
+    <h3>Kursverlauf · 12 Monate</h3>
+    <div class="legend">
+      <span><i class="sw px"></i>S&amp;P 500</span>
+      <span><i class="sw s50"></i>50-Tage</span>
+      <span><i class="sw s200"></i>200-Tage</span>
+    </div>
+  </div>
+  
+<svg viewBox="0 0 860 300" class="chart" role="img" aria-label="S&amp;P 500 der letzten 12 Monate mit 50- und 200-Tage-Linie">
+  <defs>
+    <linearGradient id="fill" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="var(--series-1)" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="var(--series-1)" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <line x1="8" x2="796" y1="267.4" y2="267.4" class="grid"/><text x="804" y="271.4" class="tick">6.000</text><line x1="8" x2="796" y1="201.0" y2="201.0" class="grid"/><text x="804" y="205.0" class="tick">6.500</text><line x1="8" x2="796" y1="134.7" y2="134.7" class="grid"/><text x="804" y="138.7" class="tick">7.000</text><line x1="8" x2="796" y1="68.3" y2="68.3" class="grid"/><text x="804" y="72.3" class="tick">7.500</text>
+  <line x1="8" x2="796" y1="272" y2="272" class="axis"/>
+  <line x1="38.4" x2="38.4" y1="272" y2="276" class="axis"/><text x="38.4" y="292" class="tick" text-anchor="middle">Nov</text><line x1="96.2" x2="96.2" y1="272" y2="276" class="axis"/><text x="96.2" y="292" class="tick" text-anchor="middle">Dez</text><line x1="163.2" x2="163.2" y1="272" y2="276" class="axis"/><text x="163.2" y="292" class="tick" text-anchor="middle">Jan</text><line x1="224.0" x2="224.0" y1="272" y2="276" class="axis"/><text x="224.0" y="292" class="tick" text-anchor="middle">Feb</text><line x1="281.8" x2="281.8" y1="272" y2="276" class="axis"/><text x="281.8" y="292" class="tick" text-anchor="middle">Mär</text><line x1="348.8" x2="348.8" y1="272" y2="276" class="axis"/><text x="348.8" y="292" class="tick" text-anchor="middle">Apr</text><line x1="412.6" x2="412.6" y1="272" y2="276" class="axis"/><text x="412.6" y="292" class="tick" text-anchor="middle">Mai</text><line x1="473.5" x2="473.5" y1="272" y2="276" class="axis"/><text x="473.5" y="292" class="tick" text-anchor="middle">Jun</text><line x1="537.4" x2="537.4" y1="272" y2="276" class="axis"/><text x="537.4" y="292" class="tick" text-anchor="middle">Jul</text><line x1="604.3" x2="604.3" y1="272" y2="276" class="axis"/><text x="604.3" y="292" class="tick" text-anchor="middle">Aug</text><line x1="668.2" x2="668.2" y1="272" y2="276" class="axis"/><text x="668.2" y="292" class="tick" text-anchor="middle">Sep</text><line x1="732.1" x2="732.1" y1="272" y2="276" class="axis"/><text x="732.1" y="292" class="tick" text-anchor="middle">Okt</text>
+  <path d="M8.0,169.8 L11.0,169.8 L14.1,174.6 L17.1,169.4 L20.2,162.3 L23.2,151.2 L26.3,149.1 L29.3,149.2 L32.3,158.2 L35.4,155.9 L38.4,154.3 L41.5,165.0 L44.5,161.7 L47.6,171.8 L50.6,170.7 L53.6,156.9 L56.7,155.0 L59.7,154.4 L62.8,169.5 L65.8,170.0 L68.8,178.1 L71.9,185.5 L74.9,182.2 L78.0,195.9 L81.0,187.4 L84.1,173.8 L87.1,165.7 L90.1,159.5 L93.2,154.7 L96.2,159.5 L99.3,157.3 L102.3,154.6 L105.4,153.6 L108.4,151.9 L111.4,155.0 L114.5,155.8 L117.5,149.7 L120.6,147.8 L123.6,157.6 L126.7,159.0 L129.7,161.2 L132.7,171.6 L135.8,164.6 L138.8,156.6 L141.9,150.8 L144.9,146.6 L148.0,143.7 L151.0,144.0 L154.0,147.2 L157.1,148.4 L160.1,155.2 L163.2,153.4 L166.2,147.7 L169.3,142.0 L172.3,145.2 L175.3,145.1 L178.4,139.1 L181.4,137.7 L184.5,139.5 L187.5,144.4 L190.5,142.0 L193.6,142.6 L196.6,161.6 L199.7,151.2 L202.7,146.2 L205.8,145.9 L208.8,141.3 L211.8,137.5 L214.9,137.6 L217.9,138.8 L221.0,142.8 L224.0,137.8 L227.1,145.6 L230.1,150.2 L233.1,161.4 L236.2,143.6 L239.2,139.3 L242.3,142.4 L245.3,142.4 L248.4,156.9 L251.4,156.4 L254.4,155.5 L257.5,150.4 L260.5,153.0 L263.6,146.7 L266.6,156.2 L269.7,149.3 L272.7,141.8 L275.7,146.8 L278.8,150.7 L281.8,150.4 L284.9,159.0 L287.9,152.0 L290.9,157.1 L294.0,169.2 L297.0,161.7 L300.1,163.7 L303.1,164.4 L306.2,178.1 L309.2,183.5 L312.2,174.6 L315.3,172.4 L318.3,184.5 L321.4,186.9 L324.4,200.2 L327.5,190.3 L330.5,193.6 L333.5,188.8 L336.6,204.1 L339.6,218.5 L342.7,221.8 L345.7,197.3 L348.8,191.0 L351.8,190.1 L354.8,186.2 L357.9,185.5 L360.9,163.5 L364.0,157.9 L367.0,159.0 L370.1,149.8 L373.1,139.0 L376.1,131.6 L379.2,129.2 L382.2,117.9 L385.3,120.2 L388.3,126.2 L391.4,116.3 L394.4,120.3 L397.4,112.7 L400.5,111.6 L403.5,116.2 L406.6,116.6 L409.6,106.9 L412.6,104.1 L415.7,108.0 L418.7,100.2 L421.8,86.2 L424.8,89.9 L427.9,81.7 L430.9,79.8 L433.9,81.4 L437.0,75.7 L440.0,68.1 L443.1,80.4 L446.1,81.1 L449.2,87.7 L452.2,77.2 L455.2,75.5 L458.3,71.8 L461.3,65.7 L464.4,65.6 L467.4,59.8 L470.5,57.6 L473.5,55.0 L476.5,53.7 L479.6,61.1 L482.6,57.1 L485.7,83.7 L488.7,80.8 L491.8,83.3 L494.8,99.2 L497.8,82.3 L500.9,77.4 L503.9,61.1 L507.0,66.8 L510.0,78.9 L513.1,68.2 L516.1,71.9 L519.1,86.1 L522.2,87.1 L525.2,87.2 L528.3,87.7 L531.3,76.2 L534.3,68.4 L537.4,70.5 L540.4,70.5 L543.5,63.3 L546.5,67.8 L549.6,70.6 L552.6,62.5 L555.6,58.3 L558.7,66.2 L561.7,62.5 L564.8,58.7 L567.8,63.8 L570.9,73.9 L573.9,75.8 L576.9,67.1 L580.0,68.4 L583.0,80.4 L586.1,80.0 L589.1,79.8 L592.2,77.7 L595.2,92.7 L598.2,76.6 L601.3,69.6 L604.3,54.9 L607.4,36.9 L610.4,38.6 L613.5,40.4 L616.5,34.1 L619.5,34.7 L622.6,38.0 L625.6,35.3 L628.7,28.6 L631.7,30.3 L634.7,35.7 L637.8,42.8 L640.8,40.7 L643.9,49.5 L646.9,45.1 L650.0,48.0 L653.0,44.7 L656.0,44.9 L659.1,37.6 L662.1,40.2 L665.2,43.6 L668.2,50.8 L671.3,46.2 L674.3,35.4 L677.3,39.2 L680.4,45.2 L683.4,50.2 L686.5,56.1 L689.5,47.4 L692.6,52.3 L695.6,56.9 L698.6,61.4 L701.7,50.0 L704.7,48.3 L707.8,33.1 L710.8,33.1 L713.9,40.9 L716.9,41.2 L719.9,36.0 L723.0,43.9 L726.0,45.6 L729.1,48.2 L732.1,46.2 L735.2,38.7 L738.2,31.9 L741.2,25.9 L744.3,28.2 L747.3,33.0 L750.4,26.9 L753.4,27.5 L756.4,27.7 L759.5,39.2 L762.5,35.9 L765.6,47.1 L768.6,42.9 L771.7,40.0 L774.7,34.1 L777.7,46.6 L780.8,51.9 L783.8,44.8 L786.9,38.7 L789.9,35.9 L793.0,39.0 L796.0,57.6 L796.0,272 L8.0,272 Z" fill="url(#fill)"/>
+  <path d="M8.0,258.1 L11.0,257.5 L14.1,257.0 L17.1,256.5 L20.2,255.9 L23.2,255.3 L26.3,254.6 L29.3,253.9 L32.3,253.2 L35.4,252.6 L38.4,252.0 L41.5,251.5 L44.5,251.0 L47.6,250.6 L50.6,250.2 L53.6,249.7 L56.7,249.1 L59.7,248.6 L62.8,248.2 L65.8,247.7 L68.8,247.3 L71.9,246.9 L74.9,246.5 L78.0,246.2 L81.0,245.8 L84.1,245.4 L87.1,244.9 L90.1,244.4 L93.2,243.9 L96.2,243.4 L99.3,242.9 L102.3,242.5 L105.4,242.0 L108.4,241.5 L111.4,240.9 L114.5,240.4 L117.5,239.7 L120.6,239.1 L123.6,238.5 L126.7,237.9 L129.7,237.3 L132.7,236.7 L135.8,236.0 L138.8,235.3 L141.9,234.6 L144.9,233.7 L148.0,232.8 L151.0,231.9 L154.0,231.0 L157.1,230.2 L160.1,229.4 L163.2,228.6 L166.2,227.8 L169.3,226.9 L172.3,226.1 L175.3,225.3 L178.4,224.5 L181.4,223.7 L184.5,222.8 L187.5,221.9 L190.5,221.1 L193.6,220.2 L196.6,219.4 L199.7,218.5 L202.7,217.2 L205.8,216.0 L208.8,214.7 L211.8,213.7 L214.9,212.6 L217.9,211.5 L221.0,210.5 L224.0,209.4 L227.1,208.3 L230.1,207.3 L233.1,206.2 L236.2,205.1 L239.2,204.0 L242.3,203.1 L245.3,202.1 L248.4,201.3 L251.4,200.4 L254.4,199.6 L257.5,198.7 L260.5,197.9 L263.6,197.1 L266.6,196.3 L269.7,195.5 L272.7,194.6 L275.7,193.8 L278.8,193.1 L281.8,192.4 L284.9,191.8 L287.9,191.2 L290.9,190.6 L294.0,190.1 L297.0,189.5 L300.1,188.9 L303.1,188.3 L306.2,187.7 L309.2,187.2 L312.2,186.7 L315.3,186.2 L318.3,185.7 L321.4,185.2 L324.4,184.9 L327.5,184.5 L330.5,184.1 L333.5,183.7 L336.6,183.4 L339.6,183.1 L342.7,182.9 L345.7,182.6 L348.8,182.2 L351.8,181.8 L354.8,181.4 L357.9,181.0 L360.9,180.5 L364.0,179.9 L367.0,179.4 L370.1,178.9 L373.1,178.4 L376.1,177.8 L379.2,177.3 L382.2,176.6 L385.3,176.1 L388.3,175.5 L391.4,174.9 L394.4,174.3 L397.4,173.7 L400.5,173.2 L403.5,172.6 L406.6,172.0 L409.6,171.4 L412.6,170.7 L415.7,170.1 L418.7,169.5 L421.8,168.8 L424.8,168.1 L427.9,167.4 L430.9,166.7 L433.9,166.0 L437.0,165.3 L440.0,164.6 L443.1,163.9 L446.1,163.2 L449.2,162.4 L452.2,161.7 L455.2,160.9 L458.3,160.2 L461.3,159.4 L464.4,158.7 L467.4,157.9 L470.5,157.1 L473.5,156.4 L476.5,155.6 L479.6,154.9 L482.6,154.1 L485.7,153.5 L488.7,152.8 L491.8,152.1 L494.8,151.6 L497.8,151.0 L500.9,150.3 L503.9,149.6 L507.0,148.9 L510.0,148.3 L513.1,147.6 L516.1,146.9 L519.1,146.3 L522.2,145.7 L525.2,145.2 L528.3,144.6 L531.3,144.0 L534.3,143.4 L537.4,142.8 L540.4,142.2 L543.5,141.6 L546.5,141.0 L549.6,140.5 L552.6,139.9 L555.6,139.3 L558.7,138.7 L561.7,138.1 L564.8,137.5 L567.8,136.9 L570.9,136.4 L573.9,135.9 L576.9,135.3 L580.0,134.8 L583.0,134.3 L586.1,133.9 L589.1,133.4 L592.2,133.0 L595.2,132.6 L598.2,132.0 L601.3,131.5 L604.3,130.8 L607.4,130.1 L610.4,129.4 L613.5,128.7 L616.5,128.0 L619.5,127.3 L622.6,126.7 L625.6,126.0 L628.7,125.3 L631.7,124.7 L634.7,124.1 L637.8,123.6 L640.8,123.0 L643.9,122.5 L646.9,121.9 L650.0,121.4 L653.0,120.8 L656.0,120.1 L659.1,119.5 L662.1,118.9 L665.2,118.3 L668.2,117.8 L671.3,117.2 L674.3,116.5 L677.3,115.8 L680.4,115.1 L683.4,114.5 L686.5,113.8 L689.5,113.1 L692.6,112.5 L695.6,111.9 L698.6,111.4 L701.7,110.9 L704.7,110.4 L707.8,109.7 L710.8,109.1 L713.9,108.6 L716.9,108.0 L719.9,107.4 L723.0,106.9 L726.0,106.3 L729.1,105.8 L732.1,105.3 L735.2,104.7 L738.2,104.0 L741.2,103.3 L744.3,102.6 L747.3,102.0 L750.4,101.4 L753.4,100.8 L756.4,100.2 L759.5,99.7 L762.5,99.1 L765.6,98.6 L768.6,98.1 L771.7,97.5 L774.7,96.9 L777.7,96.4 L780.8,96.0 L783.8,95.5 L786.9,95.0 L789.9,94.5 L793.0,94.0 L796.0,93.5" class="line s200"/>
+  <path d="M8.0,191.6 L11.0,190.7 L14.1,190.0 L17.1,189.3 L20.2,188.4 L23.2,187.3 L26.3,186.1 L29.3,184.8 L32.3,183.7 L35.4,182.5 L38.4,181.4 L41.5,180.5 L44.5,179.7 L47.6,179.0 L50.6,178.4 L53.6,177.4 L56.7,176.3 L59.7,175.2 L62.8,174.6 L65.8,173.9 L68.8,173.5 L71.9,173.2 L74.9,172.9 L78.0,173.0 L81.0,173.0 L84.1,172.7 L87.1,172.3 L90.1,171.7 L93.2,171.2 L96.2,170.8 L99.3,170.4 L102.3,169.9 L105.4,169.3 L108.4,168.6 L111.4,168.1 L114.5,167.6 L117.5,167.1 L120.6,166.6 L123.6,166.3 L126.7,166.0 L129.7,165.8 L132.7,165.8 L135.8,165.8 L138.8,165.5 L141.9,164.6 L144.9,164.0 L148.0,163.2 L151.0,162.5 L154.0,161.8 L157.1,161.2 L160.1,160.9 L163.2,160.5 L166.2,160.0 L169.3,159.5 L172.3,159.1 L175.3,159.0 L178.4,158.8 L181.4,158.6 L184.5,158.2 L187.5,158.0 L190.5,157.7 L193.6,157.3 L196.6,157.3 L199.7,156.9 L202.7,156.4 L205.8,156.1 L208.8,155.9 L211.8,155.5 L214.9,154.9 L217.9,154.3 L221.0,153.6 L224.0,152.6 L227.1,151.9 L230.1,151.0 L233.1,150.4 L236.2,149.8 L239.2,149.3 L242.3,149.0 L245.3,148.7 L248.4,148.7 L251.4,148.6 L254.4,148.7 L257.5,148.6 L260.5,148.6 L263.6,148.5 L266.6,148.5 L269.7,148.5 L272.7,148.3 L275.7,148.1 L278.8,148.0 L281.8,147.7 L284.9,147.5 L287.9,147.2 L290.9,147.2 L294.0,147.6 L297.0,147.9 L300.1,148.3 L303.1,148.7 L306.2,149.3 L309.2,150.0 L312.2,150.4 L315.3,150.8 L318.3,151.5 L321.4,152.4 L324.4,153.5 L327.5,154.4 L330.5,155.5 L333.5,156.6 L336.6,157.8 L339.6,159.3 L342.7,160.9 L345.7,162.0 L348.8,162.6 L351.8,163.4 L354.8,164.2 L357.9,165.0 L360.9,165.4 L364.0,165.8 L367.0,166.3 L370.1,166.5 L373.1,166.4 L376.1,166.3 L379.2,166.0 L382.2,165.3 L385.3,164.5 L388.3,164.1 L391.4,163.7 L394.4,163.2 L397.4,162.6 L400.5,161.7 L403.5,160.9 L406.6,160.1 L409.6,159.3 L412.6,158.3 L415.7,157.5 L418.7,156.4 L421.8,155.1 L424.8,154.1 L427.9,152.8 L430.9,151.4 L433.9,150.0 L437.0,148.3 L440.0,146.7 L443.1,145.1 L446.1,143.4 L449.2,141.9 L452.2,140.2 L455.2,138.4 L458.3,136.3 L461.3,133.9 L464.4,131.7 L467.4,129.5 L470.5,126.9 L473.5,124.3 L476.5,121.4 L479.6,118.8 L482.6,116.1 L485.7,114.0 L488.7,111.5 L491.8,108.8 L494.8,106.3 L497.8,104.0 L500.9,101.8 L503.9,99.2 L507.0,96.8 L510.0,94.7 L513.1,92.8 L516.1,91.0 L519.1,89.6 L522.2,88.3 L525.2,87.3 L528.3,86.4 L531.3,85.3 L534.3,84.4 L537.4,83.4 L540.4,82.2 L543.5,81.2 L546.5,80.1 L549.6,79.3 L552.6,78.3 L555.6,77.2 L558.7,76.1 L561.7,75.3 L564.8,74.3 L567.8,73.5 L570.9,72.9 L573.9,72.7 L576.9,72.3 L580.0,72.0 L583.0,72.0 L586.1,72.0 L589.1,72.1 L592.2,72.3 L595.2,72.5 L598.2,72.4 L601.3,72.1 L604.3,71.6 L607.4,70.8 L610.4,70.2 L613.5,69.7 L616.5,69.0 L619.5,68.5 L622.6,68.1 L625.6,67.7 L628.7,67.2 L631.7,66.6 L634.7,66.2 L637.8,65.4 L640.8,64.6 L643.9,63.9 L646.9,62.8 L650.0,62.1 L653.0,61.5 L656.0,61.2 L659.1,60.6 L662.1,59.8 L665.2,59.3 L668.2,58.9 L671.3,58.1 L674.3,57.1 L677.3,56.1 L680.4,55.2 L683.4,54.7 L686.5,54.5 L689.5,54.0 L692.6,53.7 L695.6,53.5 L698.6,53.4 L701.7,53.0 L704.7,52.7 L707.8,52.2 L710.8,51.5 L713.9,51.1 L716.9,50.8 L719.9,50.2 L723.0,49.6 L726.0,49.0 L729.1,48.6 L732.1,48.2 L735.2,47.3 L738.2,46.4 L741.2,45.3 L744.3,44.3 L747.3,43.1 L750.4,42.1 L753.4,41.3 L756.4,40.7 L759.5,40.8 L762.5,40.7 L765.6,40.9 L768.6,41.0 L771.7,41.2 L774.7,41.1 L777.7,41.3 L780.8,41.8 L783.8,42.1 L786.9,42.1 L789.9,42.0 L793.0,41.9 L796.0,42.1" class="line s50"/>
+  <path d="M8.0,169.8 L11.0,169.8 L14.1,174.6 L17.1,169.4 L20.2,162.3 L23.2,151.2 L26.3,149.1 L29.3,149.2 L32.3,158.2 L35.4,155.9 L38.4,154.3 L41.5,165.0 L44.5,161.7 L47.6,171.8 L50.6,170.7 L53.6,156.9 L56.7,155.0 L59.7,154.4 L62.8,169.5 L65.8,170.0 L68.8,178.1 L71.9,185.5 L74.9,182.2 L78.0,195.9 L81.0,187.4 L84.1,173.8 L87.1,165.7 L90.1,159.5 L93.2,154.7 L96.2,159.5 L99.3,157.3 L102.3,154.6 L105.4,153.6 L108.4,151.9 L111.4,155.0 L114.5,155.8 L117.5,149.7 L120.6,147.8 L123.6,157.6 L126.7,159.0 L129.7,161.2 L132.7,171.6 L135.8,164.6 L138.8,156.6 L141.9,150.8 L144.9,146.6 L148.0,143.7 L151.0,144.0 L154.0,147.2 L157.1,148.4 L160.1,155.2 L163.2,153.4 L166.2,147.7 L169.3,142.0 L172.3,145.2 L175.3,145.1 L178.4,139.1 L181.4,137.7 L184.5,139.5 L187.5,144.4 L190.5,142.0 L193.6,142.6 L196.6,161.6 L199.7,151.2 L202.7,146.2 L205.8,145.9 L208.8,141.3 L211.8,137.5 L214.9,137.6 L217.9,138.8 L221.0,142.8 L224.0,137.8 L227.1,145.6 L230.1,150.2 L233.1,161.4 L236.2,143.6 L239.2,139.3 L242.3,142.4 L245.3,142.4 L248.4,156.9 L251.4,156.4 L254.4,155.5 L257.5,150.4 L260.5,153.0 L263.6,146.7 L266.6,156.2 L269.7,149.3 L272.7,141.8 L275.7,146.8 L278.8,150.7 L281.8,150.4 L284.9,159.0 L287.9,152.0 L290.9,157.1 L294.0,169.2 L297.0,161.7 L300.1,163.7 L303.1,164.4 L306.2,178.1 L309.2,183.5 L312.2,174.6 L315.3,172.4 L318.3,184.5 L321.4,186.9 L324.4,200.2 L327.5,190.3 L330.5,193.6 L333.5,188.8 L336.6,204.1 L339.6,218.5 L342.7,221.8 L345.7,197.3 L348.8,191.0 L351.8,190.1 L354.8,186.2 L357.9,185.5 L360.9,163.5 L364.0,157.9 L367.0,159.0 L370.1,149.8 L373.1,139.0 L376.1,131.6 L379.2,129.2 L382.2,117.9 L385.3,120.2 L388.3,126.2 L391.4,116.3 L394.4,120.3 L397.4,112.7 L400.5,111.6 L403.5,116.2 L406.6,116.6 L409.6,106.9 L412.6,104.1 L415.7,108.0 L418.7,100.2 L421.8,86.2 L424.8,89.9 L427.9,81.7 L430.9,79.8 L433.9,81.4 L437.0,75.7 L440.0,68.1 L443.1,80.4 L446.1,81.1 L449.2,87.7 L452.2,77.2 L455.2,75.5 L458.3,71.8 L461.3,65.7 L464.4,65.6 L467.4,59.8 L470.5,57.6 L473.5,55.0 L476.5,53.7 L479.6,61.1 L482.6,57.1 L485.7,83.7 L488.7,80.8 L491.8,83.3 L494.8,99.2 L497.8,82.3 L500.9,77.4 L503.9,61.1 L507.0,66.8 L510.0,78.9 L513.1,68.2 L516.1,71.9 L519.1,86.1 L522.2,87.1 L525.2,87.2 L528.3,87.7 L531.3,76.2 L534.3,68.4 L537.4,70.5 L540.4,70.5 L543.5,63.3 L546.5,67.8 L549.6,70.6 L552.6,62.5 L555.6,58.3 L558.7,66.2 L561.7,62.5 L564.8,58.7 L567.8,63.8 L570.9,73.9 L573.9,75.8 L576.9,67.1 L580.0,68.4 L583.0,80.4 L586.1,80.0 L589.1,79.8 L592.2,77.7 L595.2,92.7 L598.2,76.6 L601.3,69.6 L604.3,54.9 L607.4,36.9 L610.4,38.6 L613.5,40.4 L616.5,34.1 L619.5,34.7 L622.6,38.0 L625.6,35.3 L628.7,28.6 L631.7,30.3 L634.7,35.7 L637.8,42.8 L640.8,40.7 L643.9,49.5 L646.9,45.1 L650.0,48.0 L653.0,44.7 L656.0,44.9 L659.1,37.6 L662.1,40.2 L665.2,43.6 L668.2,50.8 L671.3,46.2 L674.3,35.4 L677.3,39.2 L680.4,45.2 L683.4,50.2 L686.5,56.1 L689.5,47.4 L692.6,52.3 L695.6,56.9 L698.6,61.4 L701.7,50.0 L704.7,48.3 L707.8,33.1 L710.8,33.1 L713.9,40.9 L716.9,41.2 L719.9,36.0 L723.0,43.9 L726.0,45.6 L729.1,48.2 L732.1,46.2 L735.2,38.7 L738.2,31.9 L741.2,25.9 L744.3,28.2 L747.3,33.0 L750.4,26.9 L753.4,27.5 L756.4,27.7 L759.5,39.2 L762.5,35.9 L765.6,47.1 L768.6,42.9 L771.7,40.0 L774.7,34.1 L777.7,46.6 L780.8,51.9 L783.8,44.8 L786.9,38.7 L789.9,35.9 L793.0,39.0 L796.0,57.6" class="line px"/>
+  <circle cx="796.0" cy="57.6" r="4" class="dot"/>
+</svg>
+</section>
+
+<section class="card">
+  <div class="card-head">
+    <h3>Handelstage dieser Woche</h3>
+    <span class="muted">Woche gesamt <b class="down">−0,57 %</b></span>
+  </div>
+  <table>
+    <thead><tr><th>Tag</th><th>Datum</th><th class="num">Schluss</th><th class="num">Änderung</th></tr></thead>
+    <tbody><tr><td>Montag</td><td>26.10.2026</td><td class='num'>7.676,77</td><td class='num up'>+0,70 %</td></tr><tr><td>Dienstag</td><td>27.10.2026</td><td class='num'>7.722,60</td><td class='num up'>+0,60 %</td></tr><tr><td>Mittwoch</td><td>28.10.2026</td><td class='num'>7.743,98</td><td class='num up'>+0,28 %</td></tr><tr><td>Donnerstag</td><td>29.10.2026</td><td class='num'>7.720,39</td><td class='num down'>−0,30 %</td></tr><tr><td>Freitag</td><td>30.10.2026</td><td class='num'>7.580,07</td><td class='num down'>−1,82 %</td></tr></tbody>
+  </table>
+</section>
+</div><div class="tab-panel" id="rsi" role="tabpanel">
+<section>
+  <div class="section-head">
+    <h2>Top 10 nach RSI</h2>
+    <p class="muted">RSI (14 Tage, Wilder) zum Schluss am 30.10.2026.
+    ± = Plätze gegenüber der Vorwoche (23.10.2026). Ab 70 gilt eine Aktie als überkauft.</p>
+  </div>
+  <div class="grid2">
+<div class="card rsi-card">
+  <div class="card-head">
+    <h3>S&P 500</h3>
+    <span class="muted">503 von 503 Aktien bewertet</span>
+  </div>
+  <table class="rsi-table">
+    <thead><tr><th>#</th><th title="Plätze gegenüber Vorwoche">±</th><th>Aktie</th>
+      <th class="num">RSI</th><th class="num">Woche</th></tr></thead>
+    <tbody>
+<tr>
+  <td class="rk">1</td>
+  <td class="mvc" title="Vorwoche Platz 1"><span class='mv flat' title='Unverändert'>=</span></td>
+  <td class="stock"><b>HAS</b><span>Hasbro</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:86.6%"></span>86,6</td>
+  <td class="num up">+1,4 %</td>
+</tr>
+<tr>
+  <td class="rk">2</td>
+  <td class="mvc" title="Vorwoche Platz 267"><span class='mv up' title='265 Plätze gestiegen'>▲265</span></td>
+  <td class="stock"><b>PNR</b><span>Pentair</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:82.5%"></span>82,5</td>
+  <td class="num up">+19,8 %</td>
+</tr>
+<tr>
+  <td class="rk">3</td>
+  <td class="mvc" title="Vorwoche Platz 2"><span class='mv down' title='1 Plätze gefallen'>▼1</span></td>
+  <td class="stock"><b>ROP</b><span>Roper Technologies</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:82.2%"></span>82,2</td>
+  <td class="num up">+6,5 %</td>
+</tr>
+<tr>
+  <td class="rk">4</td>
+  <td class="mvc" title="Vorwoche Platz 4"><span class='mv flat' title='Unverändert'>=</span></td>
+  <td class="stock"><b>ALLE</b><span>Allegion</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:81.6%"></span>81,6</td>
+  <td class="num up">+4,2 %</td>
+</tr>
+<tr>
+  <td class="rk">5</td>
+  <td class="mvc" title="Vorwoche Platz 25"><span class='mv up' title='20 Plätze gestiegen'>▲20</span></td>
+  <td class="stock"><b>VLTO</b><span>Veralto</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:80.5%"></span>80,5</td>
+  <td class="num up">+6,5 %</td>
+</tr>
+<tr>
+  <td class="rk">6</td>
+  <td class="mvc" title="Vorwoche Platz 7"><span class='mv up' title='1 Plätze gestiegen'>▲1</span></td>
+  <td class="stock"><b>PTC</b><span>PTC Inc.</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:79.2%"></span>79,2</td>
+  <td class="num up">+0,9 %</td>
+</tr>
+<tr>
+  <td class="rk">7</td>
+  <td class="mvc" title="Vorwoche Platz 230"><span class='mv up' title='223 Plätze gestiegen'>▲223</span></td>
+  <td class="stock"><b>REGN</b><span>Regeneron Pharmaceuticals</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:79.1%"></span>79,1</td>
+  <td class="num up">+15,3 %</td>
+</tr>
+<tr>
+  <td class="rk">8</td>
+  <td class="mvc" title="Vorwoche Platz 159"><span class='mv up' title='151 Plätze gestiegen'>▲151</span></td>
+  <td class="stock"><b>LLY</b><span>Lilly (Eli)</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:77.9%"></span>77,9</td>
+  <td class="num up">+11,3 %</td>
+</tr>
+<tr>
+  <td class="rk">9</td>
+  <td class="mvc" title="Vorwoche Platz 33"><span class='mv up' title='24 Plätze gestiegen'>▲24</span></td>
+  <td class="stock"><b>SPGI</b><span>S&amp;P Global</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:77.3%"></span>77,3</td>
+  <td class="num up">+3,6 %</td>
+</tr>
+<tr>
+  <td class="rk">10</td>
+  <td class="mvc" title="Vorwoche Platz 88"><span class='mv up' title='78 Plätze gestiegen'>▲78</span></td>
+  <td class="stock"><b>FTV</b><span>Fortive</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:77.2%"></span>77,2</td>
+  <td class="num up">+8,3 %</td>
+</tr></tbody>
+  </table>
+</div>
+<div class="card rsi-card">
+  <div class="card-head">
+    <h3>Nasdaq 100</h3>
+    <span class="muted">101 von 101 Aktien bewertet</span>
+  </div>
+  <table class="rsi-table">
+    <thead><tr><th>#</th><th title="Plätze gegenüber Vorwoche">±</th><th>Aktie</th>
+      <th class="num">RSI</th><th class="num">Woche</th></tr></thead>
+    <tbody>
+<tr>
+  <td class="rk">1</td>
+  <td class="mvc" title="Vorwoche Platz 1"><span class='mv flat' title='Unverändert'>=</span></td>
+  <td class="stock"><b>ROP</b><span>Roper Technologies</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:82.2%"></span>82,2</td>
+  <td class="num up">+6,5 %</td>
+</tr>
+<tr>
+  <td class="rk">2</td>
+  <td class="mvc" title="Vorwoche Platz 34"><span class='mv up' title='32 Plätze gestiegen'>▲32</span></td>
+  <td class="stock"><b>REGN</b><span>Regeneron Pharmaceuticals</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:79.1%"></span>79,1</td>
+  <td class="num up">+15,3 %</td>
+</tr>
+<tr>
+  <td class="rk">3</td>
+  <td class="mvc" title="Vorwoche Platz 32"><span class='mv up' title='29 Plätze gestiegen'>▲29</span></td>
+  <td class="stock"><b>GILD</b><span>Gilead Sciences</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:74.3%"></span>74,3</td>
+  <td class="num up">+9,4 %</td>
+</tr>
+<tr>
+  <td class="rk">4</td>
+  <td class="mvc" title="Vorwoche Platz 18"><span class='mv up' title='14 Plätze gestiegen'>▲14</span></td>
+  <td class="stock"><b>GEHC</b><span>GE HealthCare</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:74.1%"></span>74,1</td>
+  <td class="num up">+7,2 %</td>
+</tr>
+<tr>
+  <td class="rk">5</td>
+  <td class="mvc" title="Vorwoche Platz 19"><span class='mv up' title='14 Plätze gestiegen'>▲14</span></td>
+  <td class="stock"><b>EXC</b><span>Exelon</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:73.5%"></span>73,5</td>
+  <td class="num up">+3,9 %</td>
+</tr>
+<tr>
+  <td class="rk">6</td>
+  <td class="mvc" title="Vorwoche Platz 7"><span class='mv up' title='1 Plätze gestiegen'>▲1</span></td>
+  <td class="stock"><b>WMT</b><span>Walmart</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:72.7%"></span>72,7</td>
+  <td class="num up">+3,0 %</td>
+</tr>
+<tr>
+  <td class="rk">7</td>
+  <td class="mvc" title="Vorwoche Platz 25"><span class='mv up' title='18 Plätze gestiegen'>▲18</span></td>
+  <td class="stock"><b>AMGN</b><span>Amgen</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:71.4%"></span>71,4</td>
+  <td class="num up">+6,1 %</td>
+</tr>
+<tr>
+  <td class="rk">8</td>
+  <td class="mvc" title="Vorwoche Platz 17"><span class='mv up' title='9 Plätze gestiegen'>▲9</span></td>
+  <td class="stock"><b>KDP</b><span>Keurig Dr Pepper</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:71.1%"></span>71,1</td>
+  <td class="num up">+3,3 %</td>
+</tr>
+<tr>
+  <td class="rk">9</td>
+  <td class="mvc" title="Vorwoche Platz 6"><span class='mv down' title='3 Plätze gefallen'>▼3</span></td>
+  <td class="stock"><b>LIN</b><span>Linde plc</span></td>
+  <td class="num rsi"><span class="bar" style="--v:69.3%"></span>69,3</td>
+  <td class="num up">+1,1 %</td>
+</tr>
+<tr>
+  <td class="rk">10</td>
+  <td class="mvc" title="Vorwoche Platz 14"><span class='mv up' title='4 Plätze gestiegen'>▲4</span></td>
+  <td class="stock"><b>XEL</b><span>Xcel Energy</span></td>
+  <td class="num rsi"><span class="bar" style="--v:68.2%"></span>68,2</td>
+  <td class="num up">+2,3 %</td>
+</tr></tbody>
+  </table>
+</div>
+<div class="card rsi-card">
+  <div class="card-head">
+    <h3>Russell 2000 <span class='filter' title='Gefiltert: Marktkap. > 4 Mrd. $, Tagesumsatz > 1 Mio. $'>Marktkap. > 4 Mrd. $, Tagesumsatz > 1 Mio. $</span></h3>
+    <span class="muted">268 von 268 Aktien bewertet</span>
+  </div>
+  <table class="rsi-table">
+    <thead><tr><th>#</th><th title="Plätze gegenüber Vorwoche">±</th><th>Aktie</th>
+      <th class="num">RSI</th><th class="num">Woche</th></tr></thead>
+    <tbody>
+<tr>
+  <td class="rk">1</td>
+  <td class="mvc" title="Vorwoche Platz 3"><span class='mv up' title='2 Plätze gestiegen'>▲2</span></td>
+  <td class="stock"><b>OPCH</b><span>Option Care Health Inc</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:84.3%"></span>84,3</td>
+  <td class="num up">+2,0 %</td>
+</tr>
+<tr>
+  <td class="rk">2</td>
+  <td class="mvc" title="Vorwoche Platz 2"><span class='mv flat' title='Unverändert'>=</span></td>
+  <td class="stock"><b>BRZE</b><span>Braze Class A</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:83.5%"></span>83,5</td>
+  <td class="num down">−0,3 %</td>
+</tr>
+<tr>
+  <td class="rk">3</td>
+  <td class="mvc" title="Vorwoche Platz 64"><span class='mv up' title='61 Plätze gestiegen'>▲61</span></td>
+  <td class="stock"><b>GKOS</b><span>Glaukos</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:82.6%"></span>82,6</td>
+  <td class="num up">+32,8 %</td>
+</tr>
+<tr>
+  <td class="rk">4</td>
+  <td class="mvc" title="Vorwoche Platz 1"><span class='mv down' title='3 Plätze gefallen'>▼3</span></td>
+  <td class="stock"><b>BOX</b><span>BOX Inc Class A</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:81.2%"></span>81,2</td>
+  <td class="num up">+0,6 %</td>
+</tr>
+<tr>
+  <td class="rk">5</td>
+  <td class="mvc" title="Vorwoche Platz 11"><span class='mv up' title='6 Plätze gestiegen'>▲6</span></td>
+  <td class="stock"><b>VAL</b><span>Valaris Ltd</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:79.3%"></span>79,3</td>
+  <td class="num up">+8,2 %</td>
+</tr>
+<tr>
+  <td class="rk">6</td>
+  <td class="mvc" title="Vorwoche Platz 17"><span class='mv up' title='11 Plätze gestiegen'>▲11</span></td>
+  <td class="stock"><b>RIG</b><span>Transocean</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:77.5%"></span>77,5</td>
+  <td class="num up">+8,3 %</td>
+</tr>
+<tr>
+  <td class="rk">7</td>
+  <td class="mvc" title="Vorwoche Platz 20"><span class='mv up' title='13 Plätze gestiegen'>▲13</span></td>
+  <td class="stock"><b>SR</b><span>Spire Inc</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:75.1%"></span>75,1</td>
+  <td class="num up">+3,2 %</td>
+</tr>
+<tr>
+  <td class="rk">8</td>
+  <td class="mvc" title="Vorwoche Platz 6"><span class='mv down' title='2 Plätze gefallen'>▼2</span></td>
+  <td class="stock"><b>SIGI</b><span>Selective Insurance Group</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:74.9%"></span>74,9</td>
+  <td class="num up">+2,3 %</td>
+</tr>
+<tr>
+  <td class="rk">9</td>
+  <td class="mvc" title="Vorwoche Platz 16"><span class='mv up' title='7 Plätze gestiegen'>▲7</span></td>
+  <td class="stock"><b>BKH</b><span>Black Hills Corp</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:74.3%"></span>74,3</td>
+  <td class="num up">+3,3 %</td>
+</tr>
+<tr>
+  <td class="rk">10</td>
+  <td class="mvc" title="Vorwoche Platz 32"><span class='mv up' title='22 Plätze gestiegen'>▲22</span></td>
+  <td class="stock"><b>TENB</b><span>Tenable Holdings Inc</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:73.4%"></span>73,4</td>
+  <td class="num up">+13,8 %</td>
+</tr></tbody>
+  </table>
+</div>
+<div class="card rsi-card">
+  <div class="card-head">
+    <h3>Dow Jones</h3>
+    <span class="muted">30 von 30 Aktien bewertet</span>
+  </div>
+  <table class="rsi-table">
+    <thead><tr><th>#</th><th title="Plätze gegenüber Vorwoche">±</th><th>Aktie</th>
+      <th class="num">RSI</th><th class="num">Woche</th></tr></thead>
+    <tbody>
+<tr>
+  <td class="rk">1</td>
+  <td class="mvc" title="Vorwoche Platz 1"><span class='mv flat' title='Unverändert'>=</span></td>
+  <td class="stock"><b>CVX</b><span>Chevron Corporation</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:72.9%"></span>72,9</td>
+  <td class="num up">+1,0 %</td>
+</tr>
+<tr>
+  <td class="rk">2</td>
+  <td class="mvc" title="Vorwoche Platz 4"><span class='mv up' title='2 Plätze gestiegen'>▲2</span></td>
+  <td class="stock"><b>WMT</b><span>Walmart</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:72.7%"></span>72,7</td>
+  <td class="num up">+3,0 %</td>
+</tr>
+<tr>
+  <td class="rk">3</td>
+  <td class="mvc" title="Vorwoche Platz 12"><span class='mv up' title='9 Plätze gestiegen'>▲9</span></td>
+  <td class="stock"><b>AMGN</b><span>Amgen</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:71.4%"></span>71,4</td>
+  <td class="num up">+6,1 %</td>
+</tr>
+<tr>
+  <td class="rk">4</td>
+  <td class="mvc" title="Vorwoche Platz 2"><span class='mv down' title='2 Plätze gefallen'>▼2</span></td>
+  <td class="stock"><b>IBM</b><span>IBM</span></td>
+  <td class="num rsi hot"><span class="bar" style="--v:70.9%"></span>70,9</td>
+  <td class="num up">+1,7 %</td>
+</tr>
+<tr>
+  <td class="rk">5</td>
+  <td class="mvc" title="Vorwoche Platz 3"><span class='mv down' title='2 Plätze gefallen'>▼2</span></td>
+  <td class="stock"><b>V</b><span>Visa Inc.</span></td>
+  <td class="num rsi"><span class="bar" style="--v:69.4%"></span>69,4</td>
+  <td class="num up">+1,4 %</td>
+</tr>
+<tr>
+  <td class="rk">6</td>
+  <td class="mvc" title="Vorwoche Platz 16"><span class='mv up' title='10 Plätze gestiegen'>▲10</span></td>
+  <td class="stock"><b>MCD</b><span>McDonald&#x27;s</span></td>
+  <td class="num rsi"><span class="bar" style="--v:68.0%"></span>68,0</td>
+  <td class="num up">+3,9 %</td>
+</tr>
+<tr>
+  <td class="rk">7</td>
+  <td class="mvc" title="Vorwoche Platz 11"><span class='mv up' title='4 Plätze gestiegen'>▲4</span></td>
+  <td class="stock"><b>HD</b><span>Home Depot (The)</span></td>
+  <td class="num rsi"><span class="bar" style="--v:67.7%"></span>67,7</td>
+  <td class="num up">+2,9 %</td>
+</tr>
+<tr>
+  <td class="rk">8</td>
+  <td class="mvc" title="Vorwoche Platz 10"><span class='mv up' title='2 Plätze gestiegen'>▲2</span></td>
+  <td class="stock"><b>PG</b><span>Procter &amp; Gamble</span></td>
+  <td class="num rsi"><span class="bar" style="--v:62.7%"></span>62,7</td>
+  <td class="num up">+0,3 %</td>
+</tr>
+<tr>
+  <td class="rk">9</td>
+  <td class="mvc" title="Vorwoche Platz 15"><span class='mv up' title='6 Plätze gestiegen'>▲6</span></td>
+  <td class="stock"><b>KO</b><span>Coca-Cola Company (The)</span></td>
+  <td class="num rsi"><span class="bar" style="--v:62.5%"></span>62,5</td>
+  <td class="num up">+1,5 %</td>
+</tr>
+<tr>
+  <td class="rk">10</td>
+  <td class="mvc" title="Vorwoche Platz 5"><span class='mv down' title='5 Plätze gefallen'>▼5</span></td>
+  <td class="stock"><b>TRV</b><span>Travelers Companies (The)</span></td>
+  <td class="num rsi"><span class="bar" style="--v:62.1%"></span>62,1</td>
+  <td class="num down">−0,5 %</td>
+</tr></tbody>
+  </table>
+</div></div>
+</section>
+</div><div class="tab-panel" id="selling-climax" role="tabpanel">
+<section>
+  <div class="section-head">
+    <h2>Selling Climax</h2>
+    <p class="muted">Aktien, deren Tagestief zwischen 26.10.2026 und 30.10.2026
+    unter dem tiefsten Kurs der vorangegangenen 52 Wochen lag <b>und</b> die die Woche trotzdem über ihrem
+    Eröffnungskurs vom ersten Handelstag beendet haben. Der Abverkauf wurde also noch in derselben Woche
+    aufgefangen. Sortiert nach Volumen am Tief im Verhältnis zum 50-Tage-Durchschnitt. Ab 2×
+    gilt es als Klimax-Volumen, das typische Zeichen einer Kapitulation.</p>
+  </div>
+  <div class="tiles">
+<div class="tile">
+  <div class="tile-label">S&P 500</div>
+  <div class="tile-value">7</div>
+  <div class="tile-sub">aus 20 neuen 52W-Tiefs · 1 mit Klimax-Volumen</div>
+</div>
+<div class="tile">
+  <div class="tile-label">Nasdaq 100</div>
+  <div class="tile-value">2</div>
+  <div class="tile-sub">aus 7 neuen 52W-Tiefs · 0 mit Klimax-Volumen</div>
+</div>
+<div class="tile">
+  <div class="tile-label">Russell 2000 *</div>
+  <div class="tile-value">2</div>
+  <div class="tile-sub">aus 6 neuen 52W-Tiefs · 0 mit Klimax-Volumen</div>
+</div>
+<div class="tile">
+  <div class="tile-label">Dow Jones</div>
+  <div class="tile-value">0</div>
+  <div class="tile-sub">aus 1 neuen 52W-Tiefs · 0 mit Klimax-Volumen</div>
+</div></div>
+  <p class='muted footnote'>* Russell 2000: nur 268 von 1965 Mitgliedern (Marktkap. > 4 Mrd. $, Tagesumsatz > 1 Mio. $).</p>
+  
+<div class="card climax-card">
+  <div class="card-head">
+    <h3>S&P 500</h3>
+    <span class="muted">7 Selling Climax · 20 neue 52W-Tiefs · 503 Aktien geprüft</span>
+  </div>
+  <div class="table-scroll"><table class="climax-table"><thead><tr><th>Aktie</th><th>Tief am</th><th class="num">Neues Tief</th>
+      <th class="num">vs. altes Tief</th><th class="num">Schluss</th>
+      <th class="num" title="Wochenschluss gegenüber Eröffnung der Woche">vs. Eröffnung</th><th class="num">seit Tief</th>
+      <th class="num">Woche</th><th class="num">Volumen</th><th class="num">RSI</th></tr></thead>
+<tbody>
+<tr>
+  <td class="stock"><b>MGM</b><span>MGM Resorts</span></td>
+  <td>Do, 29.10. <span class='muted'>(2×)</span></td>
+  <td class="num">26,71</td>
+  <td class="num down">−3,5 %</td>
+  <td class="num">29,96</td>
+  <td class="num up" title="Eröffnung der Woche: 28,30">+5,9 %</td>
+  <td class="num up">+12,2 %</td>
+  <td class="num up">+6,8 %</td>
+  <td class="num"><span class='vol hot'>2,7×</span></td>
+  <td class="num">45</td>
+</tr>
+<tr>
+  <td class="stock"><b>CBRE</b><span>CBRE Group</span></td>
+  <td>Mo, 26.10.</td>
+  <td class="num">121,44</td>
+  <td class="num down">−0,2 %</td>
+  <td class="num">128,85</td>
+  <td class="num up" title="Eröffnung der Woche: 122,79">+4,9 %</td>
+  <td class="num up">+6,1 %</td>
+  <td class="num up">+4,5 %</td>
+  <td class="num"><span class='vol'>1,7×</span></td>
+  <td class="num">47</td>
+</tr>
+<tr>
+  <td class="stock"><b>TMUS</b><span>T-Mobile US</span></td>
+  <td>Mi, 28.10. <span class='muted'>(2×)</span></td>
+  <td class="num">143,75</td>
+  <td class="num down">−1,8 %</td>
+  <td class="num">156,44</td>
+  <td class="num up" title="Eröffnung der Woche: 145,81">+7,3 %</td>
+  <td class="num up">+8,8 %</td>
+  <td class="num up">+6,8 %</td>
+  <td class="num"><span class='vol'>1,5×</span></td>
+  <td class="num">49</td>
+</tr>
+<tr>
+  <td class="stock"><b>FSLR</b><span>First Solar</span></td>
+  <td>Mo, 26.10.</td>
+  <td class="num">165,86</td>
+  <td class="num down">−1,6 %</td>
+  <td class="num">174,40</td>
+  <td class="num up" title="Eröffnung der Woche: 172,00">+1,4 %</td>
+  <td class="num up">+5,1 %</td>
+  <td class="num up">+1,4 %</td>
+  <td class="num"><span class='vol'>1,1×</span></td>
+  <td class="num">44</td>
+</tr>
+<tr>
+  <td class="stock"><b>TKO</b><span>TKO Group Holdings</span></td>
+  <td>Mi, 28.10. <span class='muted'>(2×)</span></td>
+  <td class="num">170,14</td>
+  <td class="num down">−0,5 %</td>
+  <td class="num">180,68</td>
+  <td class="num up" title="Eröffnung der Woche: 172,75">+4,6 %</td>
+  <td class="num up">+6,2 %</td>
+  <td class="num up">+4,4 %</td>
+  <td class="num"><span class='vol'>1,1×</span></td>
+  <td class="num">54</td>
+</tr></tbody></table></div>
+<details class="more"><summary>Weitere 2 anzeigen</summary>
+<div class="table-scroll"><table class="climax-table"><thead><tr><th>Aktie</th><th>Tief am</th><th class="num">Neues Tief</th>
+      <th class="num">vs. altes Tief</th><th class="num">Schluss</th>
+      <th class="num" title="Wochenschluss gegenüber Eröffnung der Woche">vs. Eröffnung</th><th class="num">seit Tief</th>
+      <th class="num">Woche</th><th class="num">Volumen</th><th class="num">RSI</th></tr></thead>
+<tbody>
+<tr>
+  <td class="stock"><b>WYNN</b><span>Wynn Resorts</span></td>
+  <td>Mi, 28.10. <span class='muted'>(2×)</span></td>
+  <td class="num">70,79</td>
+  <td class="num down">−2,1 %</td>
+  <td class="num">74,66</td>
+  <td class="num up" title="Eröffnung der Woche: 73,09">+2,1 %</td>
+  <td class="num up">+5,5 %</td>
+  <td class="num up">+2,7 %</td>
+  <td class="num"><span class='vol'>1,0×</span></td>
+  <td class="num">43</td>
+</tr>
+<tr>
+  <td class="stock"><b>CHTR</b><span>Charter Communications</span></td>
+  <td>Mo, 26.10.</td>
+  <td class="num">101,11</td>
+  <td class="num down">−0,5 %</td>
+  <td class="num">111,49</td>
+  <td class="num up" title="Eröffnung der Woche: 107,35">+3,9 %</td>
+  <td class="num up">+10,3 %</td>
+  <td class="num up">+2,7 %</td>
+  <td class="num"><span class='vol'>0,8×</span></td>
+  <td class="num">49</td>
+</tr></tbody></table></div></details>
+</div>
+<div class="card climax-card">
+  <div class="card-head">
+    <h3>Nasdaq 100</h3>
+    <span class="muted">2 Selling Climax · 7 neue 52W-Tiefs · 101 Aktien geprüft</span>
+  </div>
+  <div class="table-scroll"><table class="climax-table"><thead><tr><th>Aktie</th><th>Tief am</th><th class="num">Neues Tief</th>
+      <th class="num">vs. altes Tief</th><th class="num">Schluss</th>
+      <th class="num" title="Wochenschluss gegenüber Eröffnung der Woche">vs. Eröffnung</th><th class="num">seit Tief</th>
+      <th class="num">Woche</th><th class="num">Volumen</th><th class="num">RSI</th></tr></thead>
+<tbody>
+<tr>
+  <td class="stock"><b>CRWV</b><span>CoreWeave</span></td>
+  <td>Mo, 26.10.</td>
+  <td class="num">51,24</td>
+  <td class="num down">−4,2 %</td>
+  <td class="num">54,87</td>
+  <td class="num up" title="Eröffnung der Woche: 51,96">+5,6 %</td>
+  <td class="num up">+7,1 %</td>
+  <td class="num up">+1,2 %</td>
+  <td class="num"><span class='vol'>1,9×</span></td>
+  <td class="num">33</td>
+</tr>
+<tr>
+  <td class="stock"><b>TMUS</b><span>T-Mobile US</span></td>
+  <td>Mi, 28.10. <span class='muted'>(2×)</span></td>
+  <td class="num">143,75</td>
+  <td class="num down">−1,8 %</td>
+  <td class="num">156,44</td>
+  <td class="num up" title="Eröffnung der Woche: 145,81">+7,3 %</td>
+  <td class="num up">+8,8 %</td>
+  <td class="num up">+6,8 %</td>
+  <td class="num"><span class='vol'>1,5×</span></td>
+  <td class="num">49</td>
+</tr></tbody></table></div>
+</div>
+<div class="card climax-card">
+  <div class="card-head">
+    <h3>Russell 2000 <span class='filter' title='Gefiltert: Marktkap. > 4 Mrd. $, Tagesumsatz > 1 Mio. $'>Marktkap. > 4 Mrd. $, Tagesumsatz > 1 Mio. $</span></h3>
+    <span class="muted">2 Selling Climax · 6 neue 52W-Tiefs · 268 Aktien geprüft</span>
+  </div>
+  <div class="table-scroll"><table class="climax-table"><thead><tr><th>Aktie</th><th>Tief am</th><th class="num">Neues Tief</th>
+      <th class="num">vs. altes Tief</th><th class="num">Schluss</th>
+      <th class="num" title="Wochenschluss gegenüber Eröffnung der Woche">vs. Eröffnung</th><th class="num">seit Tief</th>
+      <th class="num">Woche</th><th class="num">Volumen</th><th class="num">RSI</th></tr></thead>
+<tbody>
+<tr>
+  <td class="stock"><b>BDC</b><span>Belden</span></td>
+  <td>Do, 29.10.</td>
+  <td class="num">96,06</td>
+  <td class="num down">−2,0 %</td>
+  <td class="num">105,70</td>
+  <td class="num up" title="Eröffnung der Woche: 105,17">+0,5 %</td>
+  <td class="num up">+10,0 %</td>
+  <td class="num up">+1,5 %</td>
+  <td class="num"><span class='vol'>1,6×</span></td>
+  <td class="num">46</td>
+</tr>
+<tr>
+  <td class="stock"><b>FLG</b><span>Flagstar Bank National Association</span></td>
+  <td>Mi, 28.10. <span class='muted'>(3×)</span></td>
+  <td class="num">9,93</td>
+  <td class="num down">−3,6 %</td>
+  <td class="num">10,51</td>
+  <td class="num up" title="Eröffnung der Woche: 10,41">+1,0 %</td>
+  <td class="num up">+5,8 %</td>
+  <td class="num up">+1,3 %</td>
+  <td class="num"><span class='vol'>1,6×</span></td>
+  <td class="num">34</td>
+</tr></tbody></table></div>
+</div>
+<div class="card climax-card">
+  <div class="card-head">
+    <h3>Dow Jones</h3>
+    <span class="muted">0 Selling Climax · 1 neue 52W-Tiefs · 30 Aktien geprüft</span>
+  </div>
+  <p class='muted empty'>Kein Selling Climax in dieser Woche. 1 Aktien hatten ein neues 52-Wochen-Tief, schlossen die Woche aber nicht über ihrer Eröffnung.</p>
+</div>
+</section>
+</div><div class="tab-panel" id="moving-average" role="tabpanel">
+<section>
+  <div class="section-head">
+    <h2>Moving Average · SMA 10 kreuzt SMA 21</h2>
+    <p class="muted">S&amp;P-500-Aktien, deren 10-Tage-Durchschnitt zwischen 26.10.2026
+    und 30.10.2026 den 21-Tage-Durchschnitt von unten gekreuzt hat (einfache Durchschnitte der
+    Schlusskurse). Intakte Kreuzungen stehen oben, sortiert nach Abstand der beiden Linien am Wochenschluss.
+    Grün hervorgehoben sind Aktien, deren Kurs an einem Tag der Woche SMA 10 und SMA 20
+    zugleich von unten durchbrochen und über beiden geschlossen hat.</p>
+  </div>
+  
+<div class="card climax-card pc-card">
+  <div class="card-head">
+    <h3>Kurs kreuzt SMA 10 und SMA 20 von unten</h3>
+    <span class="muted">45 Aktien · Vortag unter beiden Linien, Schluss über beiden</span>
+  </div>
+  <div class="table-scroll"><table class="climax-table"><thead><tr><th>Aktie</th><th>Durchbruch am</th><th class="num">Schluss am Tag</th>
+<th class="num">SMA 10</th><th class="num">SMA 20</th><th class="num">Schluss Woche</th><th class="num">Woche</th>
+<th class="num">RSI</th><th>Status</th></tr></thead><tbody>
+<tr>
+  <td class="stock"><b>IRM <span class='pill pc'>+ SMA 10/21</span></b><span>Iron Mountain</span></td>
+  <td>Mo, 26.10.</td>
+  <td class="num">113,08</td>
+  <td class="num">112,37</td>
+  <td class="num">112,89</td>
+  <td class="num">116,55</td>
+  <td class="num up">+6,0 %</td>
+  <td class="num">55</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>INCY <span class='pill pc'>+ SMA 10/21</span></b><span>Incyte</span></td>
+  <td>Di, 27.10.</td>
+  <td class="num">116,60</td>
+  <td class="num">114,38</td>
+  <td class="num">114,17</td>
+  <td class="num">120,39</td>
+  <td class="num up">+4,0 %</td>
+  <td class="num">58</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>SW <span class='pill pc'>+ SMA 10/21</span></b><span>Smurfit Westrock</span></td>
+  <td>Do, 29.10.</td>
+  <td class="num">42,53</td>
+  <td class="num">41,66</td>
+  <td class="num">41,62</td>
+  <td class="num">43,09</td>
+  <td class="num up">+3,0 %</td>
+  <td class="num">53</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>CHTR <span class='pill pc'>+ SMA 10/21</span></b><span>Charter Communications</span></td>
+  <td>Do, 29.10.</td>
+  <td class="num">109,00</td>
+  <td class="num">107,78</td>
+  <td class="num">107,40</td>
+  <td class="num">111,49</td>
+  <td class="num up">+2,7 %</td>
+  <td class="num">49</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>NVR <span class='pill pc'>+ SMA 10/21</span></b><span>NVR, Inc.</span></td>
+  <td>Do, 29.10.</td>
+  <td class="num">6.018,95</td>
+  <td class="num">5.906,52</td>
+  <td class="num">5.906,53</td>
+  <td class="num">5.958,56</td>
+  <td class="num down">−0,4 %</td>
+  <td class="num">49</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>DOC <span class='pill pc'>+ SMA 10/21</span></b><span>Healthpeak Properties</span></td>
+  <td>Do, 29.10.</td>
+  <td class="num">18,94</td>
+  <td class="num">18,91</td>
+  <td class="num">18,90</td>
+  <td class="num">19,03</td>
+  <td class="num down">−1,1 %</td>
+  <td class="num">47</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>CMG</b><span>Chipotle Mexican Grill</span></td>
+  <td>Do, 29.10.</td>
+  <td class="num">31,28</td>
+  <td class="num">28,96</td>
+  <td class="num">30,03</td>
+  <td class="num">31,89</td>
+  <td class="num up">+15,9 %</td>
+  <td class="num">57</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>GM</b><span>General Motors</span></td>
+  <td>Di, 27.10.</td>
+  <td class="num">80,54</td>
+  <td class="num">79,66</td>
+  <td class="num">80,29</td>
+  <td class="num">87,40</td>
+  <td class="num up">+15,1 %</td>
+  <td class="num">62</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>FDXF</b><span>FedEx Freight</span></td>
+  <td>Fr, 30.10.</td>
+  <td class="num">126,04</td>
+  <td class="num">111,08</td>
+  <td class="num">111,73</td>
+  <td class="num">126,04</td>
+  <td class="num up">+14,5 %</td>
+  <td class="num">67</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>IR</b><span>Ingersoll Rand</span></td>
+  <td>Do, 29.10.</td>
+  <td class="num">80,01</td>
+  <td class="num">76,63</td>
+  <td class="num">77,40</td>
+  <td class="num">80,05</td>
+  <td class="num up">+8,9 %</td>
+  <td class="num">60</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>TMUS</b><span>T-Mobile US</span></td>
+  <td>Fr, 30.10.</td>
+  <td class="num">156,44</td>
+  <td class="num">151,85</td>
+  <td class="num">155,81</td>
+  <td class="num">156,44</td>
+  <td class="num up">+6,8 %</td>
+  <td class="num">49</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>ADI</b><span>Analog Devices</span></td>
+  <td>Mo, 26.10.</td>
+  <td class="num">407,93</td>
+  <td class="num">399,98</td>
+  <td class="num">404,23</td>
+  <td class="num">417,11</td>
+  <td class="num up">+6,7 %</td>
+  <td class="num">56</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>F</b><span>Ford Motor Company</span></td>
+  <td>Do, 29.10.</td>
+  <td class="num">12,36</td>
+  <td class="num">11,98</td>
+  <td class="num">12,07</td>
+  <td class="num">12,25</td>
+  <td class="num up">+5,6 %</td>
+  <td class="num">49</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>TPR</b><span>Tapestry, Inc.</span></td>
+  <td>Do, 29.10.</td>
+  <td class="num">117,84</td>
+  <td class="num">114,63</td>
+  <td class="num">115,54</td>
+  <td class="num">116,29</td>
+  <td class="num up">+5,4 %</td>
+  <td class="num">50</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>TKO</b><span>TKO Group Holdings</span></td>
+  <td>Do, 29.10.</td>
+  <td class="num">178,77</td>
+  <td class="num">175,42</td>
+  <td class="num">175,86</td>
+  <td class="num">180,68</td>
+  <td class="num up">+4,4 %</td>
+  <td class="num">54</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr></tbody></table></div><details class="more"><summary>Weitere 30 anzeigen</summary><div class="table-scroll"><table class="climax-table"><thead><tr><th>Aktie</th><th>Durchbruch am</th><th class="num">Schluss am Tag</th>
+<th class="num">SMA 10</th><th class="num">SMA 20</th><th class="num">Schluss Woche</th><th class="num">Woche</th>
+<th class="num">RSI</th><th>Status</th></tr></thead><tbody>
+<tr>
+  <td class="stock"><b>TDG</b><span>TransDigm Group</span></td>
+  <td>Mo, 26.10.</td>
+  <td class="num">1.129,70</td>
+  <td class="num">1.128,69</td>
+  <td class="num">1.113,32</td>
+  <td class="num">1.146,81</td>
+  <td class="num up">+3,8 %</td>
+  <td class="num">54</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>ICE</b><span>Intercontinental Exchange</span></td>
+  <td>Do, 29.10.</td>
+  <td class="num">163,04</td>
+  <td class="num">159,73</td>
+  <td class="num">157,23</td>
+  <td class="num">168,85</td>
+  <td class="num up">+3,8 %</td>
+  <td class="num">66</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>LVS</b><span>Las Vegas Sands</span></td>
+  <td>Do, 29.10.</td>
+  <td class="num">37,04</td>
+  <td class="num">36,99</td>
+  <td class="num">36,78</td>
+  <td class="num">36,97</td>
+  <td class="num up">+3,6 %</td>
+  <td class="num">44</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>MRK</b><span>Merck &amp; Co.</span></td>
+  <td>Do, 29.10.</td>
+  <td class="num">146,33</td>
+  <td class="num">145,00</td>
+  <td class="num">144,32</td>
+  <td class="num">149,52</td>
+  <td class="num up">+2,9 %</td>
+  <td class="num">57</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>CMCSA</b><span>Comcast</span></td>
+  <td>Do, 29.10.</td>
+  <td class="num">22,27</td>
+  <td class="num">22,15</td>
+  <td class="num">21,67</td>
+  <td class="num">23,22</td>
+  <td class="num up">+2,3 %</td>
+  <td class="num">59</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>TSCO</b><span>Tractor Supply</span></td>
+  <td>Do, 29.10.</td>
+  <td class="num">33,65</td>
+  <td class="num">32,98</td>
+  <td class="num">32,88</td>
+  <td class="num">33,94</td>
+  <td class="num up">+1,6 %</td>
+  <td class="num">55</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>PLD</b><span>Prologis</span></td>
+  <td>Do, 29.10.</td>
+  <td class="num">128,02</td>
+  <td class="num">126,40</td>
+  <td class="num">127,96</td>
+  <td class="num">127,98</td>
+  <td class="num up">+1,2 %</td>
+  <td class="num">46</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>TGT</b><span>Target Corporation</span></td>
+  <td>Fr, 30.10.</td>
+  <td class="num">154,38</td>
+  <td class="num">152,22</td>
+  <td class="num">153,03</td>
+  <td class="num">154,38</td>
+  <td class="num up">+1,1 %</td>
+  <td class="num">51</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>HCA</b><span>HCA Healthcare</span></td>
+  <td>Mi, 28.10.</td>
+  <td class="num">463,22</td>
+  <td class="num">462,22</td>
+  <td class="num">453,22</td>
+  <td class="num">473,19</td>
+  <td class="num up">+0,9 %</td>
+  <td class="num">61</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>VZ</b><span>Verizon</span></td>
+  <td>Fr, 30.10.</td>
+  <td class="num">44,73</td>
+  <td class="num">44,07</td>
+  <td class="num">44,31</td>
+  <td class="num">44,73</td>
+  <td class="num up">+0,2 %</td>
+  <td class="num">49</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>PSX</b><span>Phillips 66</span></td>
+  <td>Fr, 30.10.</td>
+  <td class="num">282,83</td>
+  <td class="num">282,70</td>
+  <td class="num">282,59</td>
+  <td class="num">282,83</td>
+  <td class="num down">−0,1 %</td>
+  <td class="num">55</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>OMC</b><span>Omnicom Group</span></td>
+  <td>Do, 29.10.</td>
+  <td class="num">80,97</td>
+  <td class="num">80,41</td>
+  <td class="num">78,56</td>
+  <td class="num">81,26</td>
+  <td class="num down">−1,7 %</td>
+  <td class="num">56</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>GS <span class='pill pc'>+ SMA 10/21</span></b><span>Goldman Sachs</span></td>
+  <td>Mo, 26.10.</td>
+  <td class="num">893,28</td>
+  <td class="num">886,87</td>
+  <td class="num">891,71</td>
+  <td class="num">894,55</td>
+  <td class="num up">+2,2 %</td>
+  <td class="num">45</td>
+  <td><span class='pill down'>wieder darunter</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>SNPS</b><span>Synopsys</span></td>
+  <td>Di, 27.10.</td>
+  <td class="num">474,42</td>
+  <td class="num">453,74</td>
+  <td class="num">472,69</td>
+  <td class="num">467,61</td>
+  <td class="num up">+8,7 %</td>
+  <td class="num">53</td>
+  <td><span class='pill down'>wieder darunter</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>CDNS</b><span>Cadence Design Systems</span></td>
+  <td>Di, 27.10.</td>
+  <td class="num">343,08</td>
+  <td class="num">323,65</td>
+  <td class="num">336,11</td>
+  <td class="num">327,89</td>
+  <td class="num up">+3,6 %</td>
+  <td class="num">49</td>
+  <td><span class='pill down'>wieder darunter</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>JCI</b><span>Johnson Controls</span></td>
+  <td>Di, 27.10.</td>
+  <td class="num">155,88</td>
+  <td class="num">148,31</td>
+  <td class="num">151,73</td>
+  <td class="num">149,03</td>
+  <td class="num up">+3,5 %</td>
+  <td class="num">48</td>
+  <td><span class='pill down'>wieder darunter</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>P</b><span>Everpure</span></td>
+  <td>Di, 27.10.</td>
+  <td class="num">138,73</td>
+  <td class="num">129,80</td>
+  <td class="num">138,21</td>
+  <td class="num">126,98</td>
+  <td class="num up">+3,0 %</td>
+  <td class="num">47</td>
+  <td><span class='pill down'>wieder darunter</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>APTV</b><span>Aptiv</span></td>
+  <td>Do, 29.10.</td>
+  <td class="num">44,43</td>
+  <td class="num">44,10</td>
+  <td class="num">44,11</td>
+  <td class="num">43,93</td>
+  <td class="num up">+2,9 %</td>
+  <td class="num">47</td>
+  <td><span class='pill down'>wieder darunter</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>IEX</b><span>IDEX Corporation</span></td>
+  <td>Mi, 28.10.</td>
+  <td class="num">238,54</td>
+  <td class="num">233,32</td>
+  <td class="num">233,91</td>
+  <td class="num">233,84</td>
+  <td class="num up">+2,1 %</td>
+  <td class="num">51</td>
+  <td><span class='pill down'>wieder darunter</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>AMP</b><span>Ameriprise Financial</span></td>
+  <td>Do, 29.10.</td>
+  <td class="num">497,90</td>
+  <td class="num">492,26</td>
+  <td class="num">494,35</td>
+  <td class="num">490,83</td>
+  <td class="num down">−0,3 %</td>
+  <td class="num">43</td>
+  <td><span class='pill down'>wieder darunter</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>XYZ</b><span>Block, Inc.</span></td>
+  <td>Do, 29.10.</td>
+  <td class="num">76,95</td>
+  <td class="num">76,88</td>
+  <td class="num">76,69</td>
+  <td class="num">76,22</td>
+  <td class="num down">−0,3 %</td>
+  <td class="num">48</td>
+  <td><span class='pill down'>wieder darunter</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>ROST</b><span>Ross Stores</span></td>
+  <td>Mo, 26.10.</td>
+  <td class="num">234,11</td>
+  <td class="num">233,81</td>
+  <td class="num">230,91</td>
+  <td class="num">228,28</td>
+  <td class="num down">−0,4 %</td>
+  <td class="num">46</td>
+  <td><span class='pill down'>wieder darunter</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>MSFT</b><span>Microsoft</span></td>
+  <td>Mo, 26.10.</td>
+  <td class="num">532,60</td>
+  <td class="num">532,22</td>
+  <td class="num">527,87</td>
+  <td class="num">521,91</td>
+  <td class="num down">−0,5 %</td>
+  <td class="num">49</td>
+  <td><span class='pill down'>wieder darunter</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>ON</b><span>ON Semiconductor</span></td>
+  <td>Di, 27.10.</td>
+  <td class="num">78,67</td>
+  <td class="num">74,30</td>
+  <td class="num">77,46</td>
+  <td class="num">71,67</td>
+  <td class="num down">−0,8 %</td>
+  <td class="num">43</td>
+  <td><span class='pill down'>wieder darunter</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>MAA</b><span>Mid-America Apartment Communities</span></td>
+  <td>Do, 29.10.</td>
+  <td class="num">118,26</td>
+  <td class="num">118,18</td>
+  <td class="num">117,13</td>
+  <td class="num">117,21</td>
+  <td class="num down">−2,1 %</td>
+  <td class="num">45</td>
+  <td><span class='pill down'>wieder darunter</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>JBHT</b><span>J.B. Hunt</span></td>
+  <td>Di, 27.10.</td>
+  <td class="num">231,95</td>
+  <td class="num">228,75</td>
+  <td class="num">228,32</td>
+  <td class="num">221,08</td>
+  <td class="num down">−2,2 %</td>
+  <td class="num">40</td>
+  <td><span class='pill down'>wieder darunter</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>ODFL</b><span>Old Dominion</span></td>
+  <td>Di, 27.10.</td>
+  <td class="num">187,03</td>
+  <td class="num">186,71</td>
+  <td class="num">183,06</td>
+  <td class="num">172,56</td>
+  <td class="num down">−5,6 %</td>
+  <td class="num">37</td>
+  <td><span class='pill down'>wieder darunter</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>NTAP</b><span>NetApp</span></td>
+  <td>Mo, 26.10.</td>
+  <td class="num">222,08</td>
+  <td class="num">216,43</td>
+  <td class="num">221,01</td>
+  <td class="num">199,18</td>
+  <td class="num down">−7,6 %</td>
+  <td class="num">41</td>
+  <td><span class='pill down'>wieder darunter</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>CHRW</b><span>C.H. Robinson</span></td>
+  <td>Di, 27.10.</td>
+  <td class="num">143,59</td>
+  <td class="num">141,03</td>
+  <td class="num">142,07</td>
+  <td class="num">124,61</td>
+  <td class="num down">−11,7 %</td>
+  <td class="num">31</td>
+  <td><span class='pill down'>wieder darunter</span></td>
+</tr>
+<tr>
+  <td class="stock"><b>FFIV</b><span>F5, Inc.</span></td>
+  <td>Mo, 26.10.</td>
+  <td class="num">461,60</td>
+  <td class="num">456,53</td>
+  <td class="num">457,81</td>
+  <td class="num">338,34</td>
+  <td class="num down">−25,7 %</td>
+  <td class="num">23</td>
+  <td><span class='pill down'>wieder darunter</span></td>
+</tr></tbody></table></div></details>
+</div>
+  <div class="card climax-card">
+    <div class="card-head">
+      <h3>S&amp;P 500</h3>
+      <span class="muted">36 Kreuzungen · 35 zum Wochenschluss intakt · 503 Aktien geprüft</span>
+    </div>
+    <div class="table-scroll"><table class="climax-table"><thead><tr><th>Aktie</th><th>Kreuzung am</th><th class="num">SMA 10</th><th class="num">SMA 21</th>
+<th class="num" title="Abstand SMA 10 zu SMA 21 am Wochenschluss">Abstand</th><th class="num">Schluss</th>
+<th class="num">Woche</th><th class="num">RSI</th><th>Status</th></tr></thead><tbody>
+<tr class="">
+  <td class="stock"><b>LEN</b><span>Lennar</span></td>
+  <td>Mo, 26.10.</td>
+  <td class="num">82,60</td>
+  <td class="num">79,33</td>
+  <td class="num up">+4,12 %</td>
+  <td class="num">86,94</td>
+  <td class="num up">+2,4 %</td>
+  <td class="num">63</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>NXPI</b><span>NXP Semiconductors</span></td>
+  <td>Di, 27.10.</td>
+  <td class="num">245,95</td>
+  <td class="num">238,86</td>
+  <td class="num up">+2,97 %</td>
+  <td class="num">259,61</td>
+  <td class="num up">+10,5 %</td>
+  <td class="num">64</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>PHM</b><span>PulteGroup</span></td>
+  <td>Di, 27.10.</td>
+  <td class="num">119,07</td>
+  <td class="num">115,86</td>
+  <td class="num up">+2,77 %</td>
+  <td class="num">124,74</td>
+  <td class="num up">+2,9 %</td>
+  <td class="num">63</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>SWKS</b><span>Skyworks Solutions</span></td>
+  <td>Mi, 28.10.</td>
+  <td class="num">84,26</td>
+  <td class="num">81,99</td>
+  <td class="num up">+2,77 %</td>
+  <td class="num">87,58</td>
+  <td class="num up">+5,0 %</td>
+  <td class="num">61</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>ARES</b><span>Ares Management</span></td>
+  <td>Di, 27.10.</td>
+  <td class="num">121,56</td>
+  <td class="num">118,56</td>
+  <td class="num up">+2,53 %</td>
+  <td class="num">128,15</td>
+  <td class="num up">+5,0 %</td>
+  <td class="num">64</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>VRTX</b><span>Vertex Pharmaceuticals</span></td>
+  <td>Mo, 26.10.</td>
+  <td class="num">526,73</td>
+  <td class="num">514,10</td>
+  <td class="num up">+2,46 %</td>
+  <td class="num">558,88</td>
+  <td class="num up">+6,7 %</td>
+  <td class="num">68</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>BX</b><span>Blackstone Inc.</span></td>
+  <td>Mi, 28.10.</td>
+  <td class="num">115,57</td>
+  <td class="num">113,24</td>
+  <td class="num up">+2,06 %</td>
+  <td class="num">118,51</td>
+  <td class="num up">+0,5 %</td>
+  <td class="num">53</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>JNJ</b><span>Johnson &amp; Johnson</span></td>
+  <td>Di, 27.10.</td>
+  <td class="num">265,68</td>
+  <td class="num">260,57</td>
+  <td class="num up">+1,96 %</td>
+  <td class="num">273,20</td>
+  <td class="num up">+3,6 %</td>
+  <td class="num">60</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>BMY</b><span>Bristol Myers Squibb</span></td>
+  <td>Di, 27.10.</td>
+  <td class="num">61,37</td>
+  <td class="num">60,26</td>
+  <td class="num up">+1,84 %</td>
+  <td class="num">62,48</td>
+  <td class="num up">+1,6 %</td>
+  <td class="num">55</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>HPQ</b><span>HP Inc.</span></td>
+  <td>Mo, 26.10.</td>
+  <td class="num">32,09</td>
+  <td class="num">31,57</td>
+  <td class="num up">+1,65 %</td>
+  <td class="num">28,78</td>
+  <td class="num down">−14,4 %</td>
+  <td class="num">37</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>KKR</b><span>KKR &amp; Co.</span></td>
+  <td>Mi, 28.10.</td>
+  <td class="num">91,73</td>
+  <td class="num">90,31</td>
+  <td class="num up">+1,57 %</td>
+  <td class="num">94,39</td>
+  <td class="num up">+3,3 %</td>
+  <td class="num">54</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="pc-row">
+  <td class="stock"><b>INCY <span class='pill pc'>Kurs ↑ SMA 10/20</span></b><span>Incyte</span></td>
+  <td>Mi, 28.10.</td>
+  <td class="num">115,99</td>
+  <td class="num">114,24</td>
+  <td class="num up">+1,54 %</td>
+  <td class="num">120,39</td>
+  <td class="num up">+4,0 %</td>
+  <td class="num">58</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>PNC</b><span>PNC Financial Services</span></td>
+  <td>Di, 27.10.</td>
+  <td class="num">225,14</td>
+  <td class="num">221,83</td>
+  <td class="num up">+1,49 %</td>
+  <td class="num">227,86</td>
+  <td class="num up">+1,5 %</td>
+  <td class="num">54</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>BXP</b><span>BXP, Inc.</span></td>
+  <td>Mi, 28.10.</td>
+  <td class="num">60,97</td>
+  <td class="num">60,15</td>
+  <td class="num up">+1,36 %</td>
+  <td class="num">62,80</td>
+  <td class="num up">+1,1 %</td>
+  <td class="num">56</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>BNY</b><span>BNY Mellon</span></td>
+  <td>Di, 27.10.</td>
+  <td class="num">146,30</td>
+  <td class="num">144,37</td>
+  <td class="num up">+1,33 %</td>
+  <td class="num">147,11</td>
+  <td class="num up">+1,3 %</td>
+  <td class="num">50</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr></tbody></table></div><details class="more"><summary>Weitere 21 anzeigen</summary><div class="table-scroll"><table class="climax-table"><thead><tr><th>Aktie</th><th>Kreuzung am</th><th class="num">SMA 10</th><th class="num">SMA 21</th>
+<th class="num" title="Abstand SMA 10 zu SMA 21 am Wochenschluss">Abstand</th><th class="num">Schluss</th>
+<th class="num">Woche</th><th class="num">RSI</th><th>Status</th></tr></thead><tbody>
+<tr class="">
+  <td class="stock"><b>TXN</b><span>Texas Instruments</span></td>
+  <td>Mi, 28.10.</td>
+  <td class="num">293,34</td>
+  <td class="num">289,81</td>
+  <td class="num up">+1,22 %</td>
+  <td class="num">300,84</td>
+  <td class="num up">+5,7 %</td>
+  <td class="num">60</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>FRT</b><span>Federal Realty Investment Trust</span></td>
+  <td>Di, 27.10.</td>
+  <td class="num">108,34</td>
+  <td class="num">107,05</td>
+  <td class="num up">+1,20 %</td>
+  <td class="num">110,19</td>
+  <td class="num up">+1,4 %</td>
+  <td class="num">55</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>CFG</b><span>Citizens Financial Group</span></td>
+  <td>Mo, 26.10.</td>
+  <td class="num">64,78</td>
+  <td class="num">64,18</td>
+  <td class="num up">+0,93 %</td>
+  <td class="num">63,81</td>
+  <td class="num down">−2,0 %</td>
+  <td class="num">42</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>LUV</b><span>Southwest Airlines</span></td>
+  <td>Do, 29.10.</td>
+  <td class="num">41,80</td>
+  <td class="num">41,46</td>
+  <td class="num up">+0,83 %</td>
+  <td class="num">42,43</td>
+  <td class="num up">+1,6 %</td>
+  <td class="num">54</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>CARR</b><span>Carrier Global</span></td>
+  <td>Mo, 26.10.</td>
+  <td class="num">56,03</td>
+  <td class="num">55,63</td>
+  <td class="num up">+0,71 %</td>
+  <td class="num">53,63</td>
+  <td class="num down">−4,6 %</td>
+  <td class="num">37</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>PFG</b><span>Principal Financial Group</span></td>
+  <td>Do, 29.10.</td>
+  <td class="num">110,12</td>
+  <td class="num">109,53</td>
+  <td class="num up">+0,54 %</td>
+  <td class="num">111,63</td>
+  <td class="num up">+2,8 %</td>
+  <td class="num">53</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="pc-row">
+  <td class="stock"><b>GS <span class='pill pc'>Kurs ↑ SMA 10/20</span></b><span>Goldman Sachs</span></td>
+  <td>Mi, 28.10.</td>
+  <td class="num">898,48</td>
+  <td class="num">894,30</td>
+  <td class="num up">+0,47 %</td>
+  <td class="num">894,55</td>
+  <td class="num up">+2,2 %</td>
+  <td class="num">45</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>LII</b><span>Lennox International</span></td>
+  <td>Mo, 26.10.</td>
+  <td class="num">360,32</td>
+  <td class="num">358,79</td>
+  <td class="num up">+0,43 %</td>
+  <td class="num">344,08</td>
+  <td class="num down">−8,5 %</td>
+  <td class="num">41</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>MCHP</b><span>Microchip Technology</span></td>
+  <td>Fr, 30.10.</td>
+  <td class="num">77,02</td>
+  <td class="num">76,70</td>
+  <td class="num up">+0,41 %</td>
+  <td class="num">77,34</td>
+  <td class="num up">+4,4 %</td>
+  <td class="num">52</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>AXON</b><span>Axon Enterprise</span></td>
+  <td>Fr, 30.10.</td>
+  <td class="num">415,29</td>
+  <td class="num">413,65</td>
+  <td class="num up">+0,40 %</td>
+  <td class="num">427,77</td>
+  <td class="num up">+1,8 %</td>
+  <td class="num">49</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="pc-row">
+  <td class="stock"><b>SW <span class='pill pc'>Kurs ↑ SMA 10/20</span></b><span>Smurfit Westrock</span></td>
+  <td>Fr, 30.10.</td>
+  <td class="num">41,85</td>
+  <td class="num">41,69</td>
+  <td class="num up">+0,38 %</td>
+  <td class="num">43,09</td>
+  <td class="num up">+3,0 %</td>
+  <td class="num">53</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>WMB</b><span>Williams Companies</span></td>
+  <td>Do, 29.10.</td>
+  <td class="num">72,52</td>
+  <td class="num">72,26</td>
+  <td class="num up">+0,36 %</td>
+  <td class="num">74,35</td>
+  <td class="num up">+3,7 %</td>
+  <td class="num">57</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="pc-row">
+  <td class="stock"><b>CHTR <span class='pill pc'>Kurs ↑ SMA 10/20</span></b><span>Charter Communications</span></td>
+  <td>Mi, 28.10.</td>
+  <td class="num">107,92</td>
+  <td class="num">107,60</td>
+  <td class="num up">+0,30 %</td>
+  <td class="num">111,49</td>
+  <td class="num up">+2,7 %</td>
+  <td class="num">49</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>TROW</b><span>T. Rowe Price</span></td>
+  <td>Fr, 30.10.</td>
+  <td class="num">103,48</td>
+  <td class="num">103,23</td>
+  <td class="num up">+0,25 %</td>
+  <td class="num">103,90</td>
+  <td class="num down">−0,3 %</td>
+  <td class="num">49</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>NTRS</b><span>Northern Trust</span></td>
+  <td>Fr, 30.10.</td>
+  <td class="num">168,44</td>
+  <td class="num">168,15</td>
+  <td class="num up">+0,17 %</td>
+  <td class="num">169,16</td>
+  <td class="num up">+0,7 %</td>
+  <td class="num">47</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="pc-row">
+  <td class="stock"><b>IRM <span class='pill pc'>Kurs ↑ SMA 10/20</span></b><span>Iron Mountain</span></td>
+  <td>Fr, 30.10.</td>
+  <td class="num">113,90</td>
+  <td class="num">113,82</td>
+  <td class="num up">+0,07 %</td>
+  <td class="num">116,55</td>
+  <td class="num up">+6,0 %</td>
+  <td class="num">55</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="pc-row">
+  <td class="stock"><b>DOC <span class='pill pc'>Kurs ↑ SMA 10/20</span></b><span>Healthpeak Properties</span></td>
+  <td>Fr, 30.10.</td>
+  <td class="num">18,91</td>
+  <td class="num">18,91</td>
+  <td class="num up">+0,03 %</td>
+  <td class="num">19,03</td>
+  <td class="num down">−1,1 %</td>
+  <td class="num">47</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="pc-row">
+  <td class="stock"><b>NVR <span class='pill pc'>Kurs ↑ SMA 10/20</span></b><span>NVR, Inc.</span></td>
+  <td>Fr, 30.10.</td>
+  <td class="num">5.910,39</td>
+  <td class="num">5.909,01</td>
+  <td class="num up">+0,02 %</td>
+  <td class="num">5.958,56</td>
+  <td class="num down">−0,4 %</td>
+  <td class="num">49</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>ZBRA</b><span>Zebra Technologies</span></td>
+  <td>Mi, 28.10.</td>
+  <td class="num">381,06</td>
+  <td class="num">381,02</td>
+  <td class="num up">+0,01 %</td>
+  <td class="num">361,26</td>
+  <td class="num down">−6,5 %</td>
+  <td class="num">40</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>QCOM</b><span>Qualcomm</span></td>
+  <td>Fr, 30.10.</td>
+  <td class="num">177,29</td>
+  <td class="num">177,27</td>
+  <td class="num up">+0,01 %</td>
+  <td class="num">164,79</td>
+  <td class="num down">−6,3 %</td>
+  <td class="num">39</td>
+  <td><span class='pill up'>darüber</span></td>
+</tr>
+<tr class="">
+  <td class="stock"><b>ILMN</b><span>Illumina, Inc.</span></td>
+  <td>Do, 29.10.</td>
+  <td class="num">271,76</td>
+  <td class="num">272,31</td>
+  <td class="num down">−0,20 %</td>
+  <td class="num">235,99</td>
+  <td class="num down">−12,4 %</td>
+  <td class="num">39</td>
+  <td><span class='pill down'>wieder darunter</span></td>
+</tr></tbody></table></div></details>
+  </div>
+</section>
+</div><div class="tab-panel" id="smi" role="tabpanel">
+<section>
+  <div class="section-head">
+    <h2>Stochastic Momentum Index · oversold und dreht hoch</h2>
+    <p class="muted">S&amp;P-500-Aktien, deren SMI sowohl auf Monatskerzen als auch auf Wochenkerzen unter
+    -40 liegt und deren Wochen-SMI bereits über seiner Signallinie steht. Das Momentum dreht also
+    nach oben. Fallende Werte sind nicht gelistet. Einstellungen: %K 10, %D 3, EMA 3. Die Monatskerze läuft
+    noch und zählt mit ihrem Stand zum 30.10.2026. Sortiert nach Wochen-SMI, der tiefste Wert
+    zuerst.</p>
+  </div>
+  <div class="tiles">
+<div class="tile"><div class="tile-label">Monat oversold</div><div class="tile-value">86</div>
+<div class="tile-sub">SMI Monatskerzen &lt; -40</div></div>
+<div class="tile"><div class="tile-label">Woche oversold</div><div class="tile-value">132</div>
+<div class="tile-sub">SMI Wochenkerzen &lt; -40</div></div>
+<div class="tile"><div class="tile-label">Beides oversold</div><div class="tile-value">39</div>
+<div class="tile-sub">davon 26 drehen hoch (Liste unten)</div></div>
+<div class="tile"><div class="tile-label">Geprüft</div><div class="tile-value">503</div>
+<div class="tile-sub">von 503 S&amp;P-500-Aktien</div></div></div>
+  <div class="card climax-card">
+    <div class="card-head"><h3>S&amp;P 500</h3>
+      <span class="muted">26 Aktien oversold mit Aufwärtsdrehung</span></div>
+    <div class="table-scroll"><table class="climax-table"><thead><tr><th>Aktie</th><th class="num">SMI Monat</th><th class="num">Signal Monat</th>
+<th class="num">SMI Woche</th><th class="num">Signal Woche</th>
+<th class="num" title="Wochen-SMI minus Signallinie: wie deutlich das Momentum nach oben dreht">Vorsprung</th><th class="num">Schluss</th>
+<th class="num">Woche</th><th class="num">RSI</th></tr></thead><tbody>
+<tr>
+  <td class="stock"><b>WYNN</b><span>Wynn Resorts</span></td>
+  <td class="num down">-81,7</td>
+  <td class="num">-72,1</td>
+  <td class="num down">-87,4</td>
+  <td class="num">-88,0</td>
+  <td class="num up">0,5</td>
+  <td class="num">74,66</td>
+  <td class="num up">+2,7 %</td>
+  <td class="num">43</td>
+</tr>
+<tr>
+  <td class="stock"><b>FSLR</b><span>First Solar</span></td>
+  <td class="num down">-66,1</td>
+  <td class="num">-48,3</td>
+  <td class="num down">-82,8</td>
+  <td class="num">-83,1</td>
+  <td class="num up">0,3</td>
+  <td class="num">174,40</td>
+  <td class="num up">+1,4 %</td>
+  <td class="num">44</td>
+</tr>
+<tr>
+  <td class="stock"><b>LVS</b><span>Las Vegas Sands</span></td>
+  <td class="num down">-84,2</td>
+  <td class="num">-73,3</td>
+  <td class="num down">-78,1</td>
+  <td class="num">-80,0</td>
+  <td class="num up">1,9</td>
+  <td class="num">36,97</td>
+  <td class="num up">+3,6 %</td>
+  <td class="num">44</td>
+</tr>
+<tr>
+  <td class="stock"><b>APTV</b><span>Aptiv</span></td>
+  <td class="num down">-84,3</td>
+  <td class="num">-72,8</td>
+  <td class="num down">-70,3</td>
+  <td class="num">-74,6</td>
+  <td class="num up">4,3</td>
+  <td class="num">43,93</td>
+  <td class="num up">+2,9 %</td>
+  <td class="num">47</td>
+</tr>
+<tr>
+  <td class="stock"><b>TMUS</b><span>T-Mobile US</span></td>
+  <td class="num down">-75,1</td>
+  <td class="num">-74,1</td>
+  <td class="num down">-68,9</td>
+  <td class="num">-69,0</td>
+  <td class="num up">0,1</td>
+  <td class="num">156,44</td>
+  <td class="num up">+6,8 %</td>
+  <td class="num">49</td>
+</tr>
+<tr>
+  <td class="stock"><b>NRG</b><span>NRG Energy</span></td>
+  <td class="num down">-80,0</td>
+  <td class="num">-66,6</td>
+  <td class="num down">-68,3</td>
+  <td class="num">-68,8</td>
+  <td class="num up">0,4</td>
+  <td class="num">96,06</td>
+  <td class="num up">+4,1 %</td>
+  <td class="num">43</td>
+</tr>
+<tr>
+  <td class="stock"><b>MAA</b><span>Mid-America Apartment Communities</span></td>
+  <td class="num down">-53,1</td>
+  <td class="num">-42,5</td>
+  <td class="num down">-68,3</td>
+  <td class="num">-73,3</td>
+  <td class="num up">5,0</td>
+  <td class="num">117,21</td>
+  <td class="num down">−2,1 %</td>
+  <td class="num">45</td>
+</tr>
+<tr>
+  <td class="stock"><b>PCG</b><span>PG&amp;E Corporation</span></td>
+  <td class="num down">-56,1</td>
+  <td class="num">-38,9</td>
+  <td class="num down">-66,2</td>
+  <td class="num">-67,3</td>
+  <td class="num up">1,1</td>
+  <td class="num">13,18</td>
+  <td class="num up">+4,4 %</td>
+  <td class="num">50</td>
+</tr>
+<tr>
+  <td class="stock"><b>WY</b><span>Weyerhaeuser</span></td>
+  <td class="num down">-49,2</td>
+  <td class="num">-36,0</td>
+  <td class="num down">-64,0</td>
+  <td class="num">-70,8</td>
+  <td class="num up">6,8</td>
+  <td class="num">20,35</td>
+  <td class="num up">+4,4 %</td>
+  <td class="num">56</td>
+</tr>
+<tr>
+  <td class="stock"><b>LII</b><span>Lennox International</span></td>
+  <td class="num down">-76,3</td>
+  <td class="num">-64,2</td>
+  <td class="num down">-63,8</td>
+  <td class="num">-71,7</td>
+  <td class="num up">8,0</td>
+  <td class="num">344,08</td>
+  <td class="num down">−8,5 %</td>
+  <td class="num">41</td>
+</tr>
+<tr>
+  <td class="stock"><b>TKO</b><span>TKO Group Holdings</span></td>
+  <td class="num down">-51,6</td>
+  <td class="num">-35,5</td>
+  <td class="num down">-60,0</td>
+  <td class="num">-60,7</td>
+  <td class="num up">0,6</td>
+  <td class="num">180,68</td>
+  <td class="num up">+4,4 %</td>
+  <td class="num">54</td>
+</tr>
+<tr>
+  <td class="stock"><b>KKR</b><span>KKR &amp; Co.</span></td>
+  <td class="num down">-51,5</td>
+  <td class="num">-50,1</td>
+  <td class="num down">-58,5</td>
+  <td class="num">-60,9</td>
+  <td class="num up">2,5</td>
+  <td class="num">94,39</td>
+  <td class="num up">+3,3 %</td>
+  <td class="num">54</td>
+</tr>
+<tr>
+  <td class="stock"><b>GIS</b><span>General Mills</span></td>
+  <td class="num down">-61,5</td>
+  <td class="num">-61,7</td>
+  <td class="num down">-57,0</td>
+  <td class="num">-60,7</td>
+  <td class="num up">3,7</td>
+  <td class="num">34,29</td>
+  <td class="num down">−0,3 %</td>
+  <td class="num">53</td>
+</tr>
+<tr>
+  <td class="stock"><b>CLX</b><span>Clorox</span></td>
+  <td class="num down">-66,8</td>
+  <td class="num">-63,1</td>
+  <td class="num down">-56,2</td>
+  <td class="num">-61,6</td>
+  <td class="num up">5,4</td>
+  <td class="num">88,00</td>
+  <td class="num up">+1,9 %</td>
+  <td class="num">54</td>
+</tr>
+<tr>
+  <td class="stock"><b>HBAN</b><span>Huntington Bancshares</span></td>
+  <td class="num down">-40,6</td>
+  <td class="num">-28,7</td>
+  <td class="num down">-54,3</td>
+  <td class="num">-59,8</td>
+  <td class="num up">5,5</td>
+  <td class="num">15,78</td>
+  <td class="num up">+0,3 %</td>
+  <td class="num">53</td>
+</tr></tbody></table></div><details class="more"><summary>Weitere 11 anzeigen</summary><div class="table-scroll"><table class="climax-table"><thead><tr><th>Aktie</th><th class="num">SMI Monat</th><th class="num">Signal Monat</th>
+<th class="num">SMI Woche</th><th class="num">Signal Woche</th>
+<th class="num" title="Wochen-SMI minus Signallinie: wie deutlich das Momentum nach oben dreht">Vorsprung</th><th class="num">Schluss</th>
+<th class="num">Woche</th><th class="num">RSI</th></tr></thead><tbody>
+<tr>
+  <td class="stock"><b>XYL</b><span>Xylem Inc.</span></td>
+  <td class="num down">-77,0</td>
+  <td class="num">-69,7</td>
+  <td class="num down">-54,0</td>
+  <td class="num">-59,5</td>
+  <td class="num up">5,5</td>
+  <td class="num">92,40</td>
+  <td class="num down">−15,0 %</td>
+  <td class="num">33</td>
+</tr>
+<tr>
+  <td class="stock"><b>DECK</b><span>Deckers Brands</span></td>
+  <td class="num down">-55,6</td>
+  <td class="num">-39,8</td>
+  <td class="num down">-52,9</td>
+  <td class="num">-59,8</td>
+  <td class="num up">6,9</td>
+  <td class="num">81,99</td>
+  <td class="num up">+1,1 %</td>
+  <td class="num">47</td>
+</tr>
+<tr>
+  <td class="stock"><b>TDG</b><span>TransDigm Group</span></td>
+  <td class="num down">-61,2</td>
+  <td class="num">-54,9</td>
+  <td class="num down">-52,7</td>
+  <td class="num">-61,3</td>
+  <td class="num up">8,6</td>
+  <td class="num">1.146,81</td>
+  <td class="num up">+3,8 %</td>
+  <td class="num">54</td>
+</tr>
+<tr>
+  <td class="stock"><b>FICO</b><span>Fair Isaac</span></td>
+  <td class="num down">-69,8</td>
+  <td class="num">-63,3</td>
+  <td class="num down">-52,4</td>
+  <td class="num">-57,9</td>
+  <td class="num up">5,5</td>
+  <td class="num">711,23</td>
+  <td class="num down">−12,8 %</td>
+  <td class="num">41</td>
+</tr>
+<tr>
+  <td class="stock"><b>BSX</b><span>Boston Scientific</span></td>
+  <td class="num down">-90,4</td>
+  <td class="num">-89,4</td>
+  <td class="num down">-51,8</td>
+  <td class="num">-55,4</td>
+  <td class="num up">3,5</td>
+  <td class="num">41,98</td>
+  <td class="num down">−8,1 %</td>
+  <td class="num">39</td>
+</tr>
+<tr>
+  <td class="stock"><b>VICI</b><span>Vici Properties</span></td>
+  <td class="num down">-76,6</td>
+  <td class="num">-76,8</td>
+  <td class="num down">-50,4</td>
+  <td class="num">-62,5</td>
+  <td class="num up">12,1</td>
+  <td class="num">24,46</td>
+  <td class="num up">+2,9 %</td>
+  <td class="num">59</td>
+</tr>
+<tr>
+  <td class="stock"><b>LULU</b><span>Lululemon Athletica</span></td>
+  <td class="num down">-82,2</td>
+  <td class="num">-82,1</td>
+  <td class="num down">-50,0</td>
+  <td class="num">-59,7</td>
+  <td class="num up">9,6</td>
+  <td class="num">107,24</td>
+  <td class="num up">+8,3 %</td>
+  <td class="num">59</td>
+</tr>
+<tr>
+  <td class="stock"><b>MKC</b><span>McCormick &amp; Company</span></td>
+  <td class="num down">-66,1</td>
+  <td class="num">-63,9</td>
+  <td class="num down">-49,3</td>
+  <td class="num">-54,0</td>
+  <td class="num up">4,7</td>
+  <td class="num">47,29</td>
+  <td class="num down">−1,7 %</td>
+  <td class="num">50</td>
+</tr>
+<tr>
+  <td class="stock"><b>CMCSA</b><span>Comcast</span></td>
+  <td class="num down">-54,5</td>
+  <td class="num">-50,0</td>
+  <td class="num down">-47,2</td>
+  <td class="num">-50,6</td>
+  <td class="num up">3,4</td>
+  <td class="num">23,22</td>
+  <td class="num up">+2,3 %</td>
+  <td class="num">59</td>
+</tr>
+<tr>
+  <td class="stock"><b>COO</b><span>Cooper Companies (The)</span></td>
+  <td class="num down">-46,4</td>
+  <td class="num">-41,6</td>
+  <td class="num down">-44,4</td>
+  <td class="num">-49,8</td>
+  <td class="num up">5,4</td>
+  <td class="num">59,55</td>
+  <td class="num down">−2,7 %</td>
+  <td class="num">53</td>
+</tr>
+<tr>
+  <td class="stock"><b>CRH</b><span>CRH plc</span></td>
+  <td class="num down">-69,2</td>
+  <td class="num">-58,4</td>
+  <td class="num down">-43,2</td>
+  <td class="num">-58,8</td>
+  <td class="num up">15,6</td>
+  <td class="num">90,81</td>
+  <td class="num up">+7,0 %</td>
+  <td class="num">66</td>
+</tr></tbody></table></div></details>
+  </div>
+</section>
+</div><div class="tab-panel" id="chance-risk" role="tabpanel">
+<section>
+  <div class="section-head">
+    <h2>Chance/Risiko · S&amp;P 500</h2>
+    <p class="muted">Wie gut waren die Signale dieses Berichts in der Vergangenheit, und wie steht das Chance-Risiko-Verhältnis der Aktien aus dem Reiter Highlight SP500?</p>
+  </div>
+
+  <div class="card climax-card">
+    <div class="card-head"><h3>Backtest · 20 Handelstage danach</h3>
+      <span class="muted">S&amp;P-500-Aktien, Tagesdaten seit 01.11.2021</span></div>
+    <div class="table-scroll"><table class="climax-table bt-table"><thead><tr><th>Signal</th><th class="num">Fälle</th><th class="num">Trefferquote</th>
+<th class="num">Ø Gewinn</th><th class="num">Ø Verlust</th><th class="num">Erwartungswert</th>
+<th class="num" title="Erwartungswert minus Basis">vs. Basis</th>
+<th class="num" title="Mittlere Rendite minus S&amp;P-500-Rendite im selben Zeitraum">vs. S&amp;P 500</th></tr></thead><tbody>
+<tr class="">
+  <td><b>SMA 10 kreuzt SMA 21</b></td>
+  <td class="num">15.597</td>
+  <td class="num">54,5 %</td>
+  <td class="num up">+7,7 %</td>
+  <td class="num down">−6,7 %</td>
+  <td class="num up"><b>+1,16 %</b></td>
+  <td class='num up'>+0,20 %</td>
+  <td class="num up">+0,02 %</td>
+</tr>
+<tr class="">
+  <td><b>Kurs kreuzt SMA 10 und SMA 20</b></td>
+  <td class="num">16.798</td>
+  <td class="num">54,9 %</td>
+  <td class="num up">+7,9 %</td>
+  <td class="num down">−6,5 %</td>
+  <td class="num up"><b>+1,39 %</b></td>
+  <td class='num up'>+0,43 %</td>
+  <td class="num up">+0,12 %</td>
+</tr>
+<tr class="">
+  <td><b>SMI oversold dreht hoch</b></td>
+  <td class="num">1.052</td>
+  <td class="num">61,7 %</td>
+  <td class="num up">+9,2 %</td>
+  <td class="num down">−8,2 %</td>
+  <td class="num up"><b>+2,53 %</b></td>
+  <td class='num up'>+1,56 %</td>
+  <td class="num up">+0,32 %</td>
+</tr>
+<tr class="">
+  <td><b>Selling Climax</b></td>
+  <td class="num">1.018</td>
+  <td class="num">60,2 %</td>
+  <td class="num up">+9,7 %</td>
+  <td class="num down">−7,4 %</td>
+  <td class="num up"><b>+2,90 %</b></td>
+  <td class='num up'>+1,93 %</td>
+  <td class="num up">+0,58 %</td>
+</tr>
+<tr class="base-row">
+  <td><b>Basis: jede Aktie, jede Woche</b></td>
+  <td class="num">127.451</td>
+  <td class="num">53,0 %</td>
+  <td class="num up">+7,6 %</td>
+  <td class="num down">−6,6 %</td>
+  <td class="num up"><b>+0,97 %</b></td>
+  <td class="num muted">–</td>
+  <td class="num up">+0,04 %</td>
+</tr></tbody></table></div>
+    <p class="muted footnote-in">Erwartungswert = Trefferquote × Ø Gewinn − Verlustquote × Ø Verlust, also die mittlere
+    Rendite in den 20 Handelstagen nach dem Signal. „vs. Basis“ vergleicht mit einer zufälligen Aktie in einer zufälligen Woche, „vs. S&amp;P 500“ mit dem Index
+    im selben Zeitraum. Grundlage ist die heutige Indexzusammensetzung; Kosten sind nicht berücksichtigt. Der
+    Backtest ist ein Anhaltspunkt, keine Prognose.</p>
+  </div>
+
+  <div class="card climax-card">
+    <div class="card-head"><h3>Aktien aus Highlight SP500</h3>
+      <span class="muted">Top 10 und Selling-Climax-Aktien · # = Platz im Highlight-Score</span></div>
+    <div class="table-scroll"><table class="climax-table hl-cr-table"><thead><tr><th>#</th><th>Aktie</th><th>Signale</th><th class="num">Schluss</th>
+<th class="num" title="Schluss − 2 × ATR(14)">Stopp</th>
+<th class="num" title="Höchstes Hoch der letzten 3 Monate, mindestens Schluss + 3 × ATR">Ziel</th>
+<th class="num">Chance</th><th class="num">Risiko</th><th class="num" title="Chance ÷ Risiko">CRV</th>
+<th class="num" title="RS-Rating 1–99 im S&amp;P 500">RS</th><th class="num">12 Monate</th></tr></thead><tbody>
+<tr class="sc-row">
+  <td class="rk">#1</td>
+  <td class="stock"><b>CHTR</b><span>Charter Communications</span></td>
+  <td class="sigs"><span class='pill sig-ma'>SMA 10/21</span><span class='pill sig-pc'>Kurs ↑ SMA 10/20</span><span class='pill sig-sc'>Selling Climax</span></td>
+  <td class="num">111,49</td>
+  <td class="num">101,70</td>
+  <td class="num">160,70</td>
+  <td class="num up">+44,1 %</td>
+  <td class="num down">−8,8 %</td>
+  <td class="num up"><b>5,0</b></td>
+  <td class="num down"><b>1</b></td>
+  <td class="num down">−53,8 %</td>
+</tr>
+<tr class="sc-row">
+  <td class="rk">#2</td>
+  <td class="stock"><b>TMUS</b><span>T-Mobile US</span></td>
+  <td class="sigs"><span class='pill sig-pc'>Kurs ↑ SMA 10/20</span><span class='pill sig-smi'>SMI ↑</span><span class='pill sig-sc'>Selling Climax</span></td>
+  <td class="num">156,44</td>
+  <td class="num">144,63</td>
+  <td class="num">189,87</td>
+  <td class="num up">+21,4 %</td>
+  <td class="num down">−7,6 %</td>
+  <td class="num up"><b>2,8</b></td>
+  <td class="num down"><b>8</b></td>
+  <td class="num down">−27,2 %</td>
+</tr>
+<tr class="sc-row">
+  <td class="rk">#3</td>
+  <td class="stock"><b>TKO</b><span>TKO Group Holdings</span></td>
+  <td class="sigs"><span class='pill sig-pc'>Kurs ↑ SMA 10/20</span><span class='pill sig-smi'>SMI ↑</span><span class='pill sig-sc'>Selling Climax</span></td>
+  <td class="num">180,68</td>
+  <td class="num">171,23</td>
+  <td class="num">203,04</td>
+  <td class="num up">+12,4 %</td>
+  <td class="num down">−5,2 %</td>
+  <td class="num up"><b>2,4</b></td>
+  <td class="num down"><b>27</b></td>
+  <td class="num down">−3,2 %</td>
+</tr>
+<tr class="sc-row">
+  <td class="rk">#4</td>
+  <td class="stock"><b>MGM</b><span>MGM Resorts</span></td>
+  <td class="sigs"><span class='pill sig-sc'>Selling Climax</span></td>
+  <td class="num">29,96</td>
+  <td class="num">27,63</td>
+  <td class="num">46,14</td>
+  <td class="num up">+54,0 %</td>
+  <td class="num down">−7,8 %</td>
+  <td class="num up"><b>6,9</b></td>
+  <td class="num down"><b>6</b></td>
+  <td class="num down">−4,0 %</td>
+</tr>
+<tr class="sc-row">
+  <td class="rk">#5</td>
+  <td class="stock"><b>CBRE</b><span>CBRE Group</span></td>
+  <td class="sigs"><span class='pill sig-sc'>Selling Climax</span></td>
+  <td class="num">128,85</td>
+  <td class="num">120,24</td>
+  <td class="num">156,55</td>
+  <td class="num up">+21,5 %</td>
+  <td class="num down">−6,7 %</td>
+  <td class="num up"><b>3,2</b></td>
+  <td class="num down"><b>10</b></td>
+  <td class="num down">−15,6 %</td>
+</tr>
+<tr class="sc-row">
+  <td class="rk">#6</td>
+  <td class="stock"><b>WYNN</b><span>Wynn Resorts</span></td>
+  <td class="sigs"><span class='pill sig-smi'>SMI ↑</span><span class='pill sig-sc'>Selling Climax</span></td>
+  <td class="num">74,66</td>
+  <td class="num">69,64</td>
+  <td class="num">109,24</td>
+  <td class="num up">+46,3 %</td>
+  <td class="num down">−6,7 %</td>
+  <td class="num up"><b>6,9</b></td>
+  <td class="num down"><b>2</b></td>
+  <td class="num down">−38,2 %</td>
+</tr>
+<tr class="sc-row">
+  <td class="rk">#7</td>
+  <td class="stock"><b>FSLR</b><span>First Solar</span></td>
+  <td class="sigs"><span class='pill sig-smi'>SMI ↑</span><span class='pill sig-sc'>Selling Climax</span></td>
+  <td class="num">174,40</td>
+  <td class="num">159,81</td>
+  <td class="num">269,70</td>
+  <td class="num up">+54,6 %</td>
+  <td class="num down">−8,4 %</td>
+  <td class="num up"><b>6,5</b></td>
+  <td class="num down"><b>4</b></td>
+  <td class="num down">−27,8 %</td>
+</tr>
+<tr class="">
+  <td class="rk">#8</td>
+  <td class="stock"><b>ARES</b><span>Ares Management</span></td>
+  <td class="sigs"><span class='pill sig-ma'>SMA 10/21</span></td>
+  <td class="num">128,15</td>
+  <td class="num">120,31</td>
+  <td class="num">149,87</td>
+  <td class="num up">+16,9 %</td>
+  <td class="num down">−6,1 %</td>
+  <td class="num up"><b>2,8</b></td>
+  <td class="num down"><b>21</b></td>
+  <td class="num down">−14,9 %</td>
+</tr>
+<tr class="">
+  <td class="rk">#9</td>
+  <td class="stock"><b>IP</b><span>International Paper</span></td>
+  <td class="sigs"></td>
+  <td class="num">36,37</td>
+  <td class="num">33,98</td>
+  <td class="num">42,87</td>
+  <td class="num up">+17,9 %</td>
+  <td class="num down">−6,6 %</td>
+  <td class="num up"><b>2,7</b></td>
+  <td class="num down"><b>20</b></td>
+  <td class="num down">−17,8 %</td>
+</tr>
+<tr class="">
+  <td class="rk">#10</td>
+  <td class="stock"><b>KKR</b><span>KKR &amp; Co.</span></td>
+  <td class="sigs"><span class='pill sig-ma'>SMA 10/21</span><span class='pill sig-smi'>SMI ↑</span></td>
+  <td class="num">94,39</td>
+  <td class="num">88,78</td>
+  <td class="num">116,57</td>
+  <td class="num up">+23,5 %</td>
+  <td class="num down">−5,9 %</td>
+  <td class="num up"><b>4,0</b></td>
+  <td class="num down"><b>13</b></td>
+  <td class="num down">−20,4 %</td>
+</tr>
+<tr class="sc-row">
+  <td class="rk">#1</td>
+  <td class="stock"><b>CHTR</b><span>Charter Communications</span></td>
+  <td class="sigs"><span class='pill sig-ma'>SMA 10/21</span><span class='pill sig-pc'>Kurs ↑ SMA 10/20</span><span class='pill sig-sc'>Selling Climax</span></td>
+  <td class="num">111,49</td>
+  <td class="num">101,70</td>
+  <td class="num">160,70</td>
+  <td class="num up">+44,1 %</td>
+  <td class="num down">−8,8 %</td>
+  <td class="num up"><b>5,0</b></td>
+  <td class="num down"><b>1</b></td>
+  <td class="num down">−53,8 %</td>
+</tr>
+<tr class="sc-row">
+  <td class="rk">#2</td>
+  <td class="stock"><b>TMUS</b><span>T-Mobile US</span></td>
+  <td class="sigs"><span class='pill sig-pc'>Kurs ↑ SMA 10/20</span><span class='pill sig-smi'>SMI ↑</span><span class='pill sig-sc'>Selling Climax</span></td>
+  <td class="num">156,44</td>
+  <td class="num">144,63</td>
+  <td class="num">189,87</td>
+  <td class="num up">+21,4 %</td>
+  <td class="num down">−7,6 %</td>
+  <td class="num up"><b>2,8</b></td>
+  <td class="num down"><b>8</b></td>
+  <td class="num down">−27,2 %</td>
+</tr>
+<tr class="sc-row">
+  <td class="rk">#3</td>
+  <td class="stock"><b>TKO</b><span>TKO Group Holdings</span></td>
+  <td class="sigs"><span class='pill sig-pc'>Kurs ↑ SMA 10/20</span><span class='pill sig-smi'>SMI ↑</span><span class='pill sig-sc'>Selling Climax</span></td>
+  <td class="num">180,68</td>
+  <td class="num">171,23</td>
+  <td class="num">203,04</td>
+  <td class="num up">+12,4 %</td>
+  <td class="num down">−5,2 %</td>
+  <td class="num up"><b>2,4</b></td>
+  <td class="num down"><b>27</b></td>
+  <td class="num down">−3,2 %</td>
+</tr>
+<tr class="sc-row">
+  <td class="rk">#4</td>
+  <td class="stock"><b>MGM</b><span>MGM Resorts</span></td>
+  <td class="sigs"><span class='pill sig-sc'>Selling Climax</span></td>
+  <td class="num">29,96</td>
+  <td class="num">27,63</td>
+  <td class="num">46,14</td>
+  <td class="num up">+54,0 %</td>
+  <td class="num down">−7,8 %</td>
+  <td class="num up"><b>6,9</b></td>
+  <td class="num down"><b>6</b></td>
+  <td class="num down">−4,0 %</td>
+</tr>
+<tr class="sc-row">
+  <td class="rk">#5</td>
+  <td class="stock"><b>CBRE</b><span>CBRE Group</span></td>
+  <td class="sigs"><span class='pill sig-sc'>Selling Climax</span></td>
+  <td class="num">128,85</td>
+  <td class="num">120,24</td>
+  <td class="num">156,55</td>
+  <td class="num up">+21,5 %</td>
+  <td class="num down">−6,7 %</td>
+  <td class="num up"><b>3,2</b></td>
+  <td class="num down"><b>10</b></td>
+  <td class="num down">−15,6 %</td>
+</tr>
+<tr class="sc-row">
+  <td class="rk">#6</td>
+  <td class="stock"><b>WYNN</b><span>Wynn Resorts</span></td>
+  <td class="sigs"><span class='pill sig-smi'>SMI ↑</span><span class='pill sig-sc'>Selling Climax</span></td>
+  <td class="num">74,66</td>
+  <td class="num">69,64</td>
+  <td class="num">109,24</td>
+  <td class="num up">+46,3 %</td>
+  <td class="num down">−6,7 %</td>
+  <td class="num up"><b>6,9</b></td>
+  <td class="num down"><b>2</b></td>
+  <td class="num down">−38,2 %</td>
+</tr>
+<tr class="sc-row">
+  <td class="rk">#7</td>
+  <td class="stock"><b>FSLR</b><span>First Solar</span></td>
+  <td class="sigs"><span class='pill sig-smi'>SMI ↑</span><span class='pill sig-sc'>Selling Climax</span></td>
+  <td class="num">174,40</td>
+  <td class="num">159,81</td>
+  <td class="num">269,70</td>
+  <td class="num up">+54,6 %</td>
+  <td class="num down">−8,4 %</td>
+  <td class="num up"><b>6,5</b></td>
+  <td class="num down"><b>4</b></td>
+  <td class="num down">−27,8 %</td>
+</tr></tbody></table></div>
+    <p class="muted footnote-in">Stopp = Schluss − 2 × ATR(14). Ziel = nächster Widerstand,
+    das höchste Hoch der letzten 3 Monate; liegt es näher als 3 × ATR, gilt Schluss +
+    3 × ATR („ATR“). CRV grün ab 2, rot unter 1. RS-Rating: gewichtete Performance über
+    3/6/9/12 Monate als Rang 1–99 im S&amp;P 500. Der S&amp;P 500 selbst: +10,0 % in 12 Monaten.</p>
+  </div>
+</section>
+</div><div class="tab-panel" id="highlight-sp500" role="tabpanel">
+<section>
+  <div class="section-head">
+    <h2>Highlight SP500 · Top 10</h2>
+    <p class="muted">Die S&amp;P-500-Aktien, die die übrigen Reiter gemeinsam anführen. Der Score ist der
+    gewichtete Durchschnitt aus sieben Bausteinen mit je 0–100 Punkten; SMI und Selling Climax zählen doppelt:
+    Wochentrend und RSI als Rangplatz unter allen 503 Aktien, Platzgewinn im RSI gegenüber der Vorwoche
+    ebenso, MA-Kreuzung 100 (frische Kreuzung) / 50 (SMA 10 über SMA 21) / 0, SMI 0 (≥ 0) bis 100
+    (≤ -40) je Zeitebene, gemittelt über Woche und Monat, CRV als Rangplatz (Reiter Chance/Risiko),
+    Selling Climax 100 / 0.
+    Fährst du mit der Maus über den Score, siehst du die Einzelpunkte. Spalte „SMI W / M“: ↗ = dreht hoch,
+    rot = oversold, grün = overbought. Die Etiketten „Kurs ↑ SMA 10/20“ und „SMI oversold ↑“ sind Information.
+</p>
+  </div>
+  <div class="card climax-card">
+    <div class="table-scroll"><table class="climax-table hl-table"><thead><tr><th>#</th><th>Aktie</th><th class="num" title="Gesamtwert 0–100">Score</th>
+<th class="num">Wochentrend</th><th title="Moving Average Crossing: SMA 10 / SMA 21">MA-Crossing</th>
+<th class="num">RSI-Position</th><th class="num" title="RSI-Plätze gegenüber Vorwoche">RSI-Plätze ±</th>
+<th class="num" title="Stochastic Momentum Index Wochenkerzen / Monatskerzen; ↗ = Wochen-SMI dreht hoch">SMI W / M</th>
+<th class="num" title="Chance-Risiko-Verhältnis (Reiter Chance/Risiko)">CRV</th></tr></thead><tbody>
+<tr class="sc-row">
+  <td class="rk">1</td>
+  <td class="stock"><b>CHTR <span class='pill sc'>Selling Climax</span></b><span>Charter Communications</span></td>
+  <td class="num score" title="Punkte: Wochentrend 66 · MA-Kreuzung 100 · RSI-Position 32 · RSI-Plätze 70 · SMI 100 · CRV 94 · Selling Climax 100"><span class="bar" style="--v:84.7%"></span>85</td>
+  <td class="num up">+2,7 %</td>
+  <td><span class='pill up'>▲ Kreuzung Mi</span> <span class='pill pc'>Kurs ↑ SMA 10/20</span></td>
+  <td class="num">Platz 345 <span class='muted'>· 49,0</span></td>
+  <td class="num"><span class='mv up' title='52 Plätze gestiegen'>▲52</span></td>
+  <td class="num"><span class='muted' title='Wochen-SMI unter Signallinie: fallend'>↘</span> <span class='down'>-72</span> <span class='muted'>/</span> <span class='down'>-77</span></td>
+  <td class="num up"><b>5,0</b></td>
+</tr>
+<tr class="sc-row">
+  <td class="rk">2</td>
+  <td class="stock"><b>TMUS <span class='pill sc'>Selling Climax</span> <span class='pill smi'>SMI oversold ↑</span></b><span>T-Mobile US</span></td>
+  <td class="num score" title="Punkte: Wochentrend 92 · MA-Kreuzung 0 · RSI-Position 30 · RSI-Plätze 86 · SMI 100 · CRV 73 · Selling Climax 100"><span class="bar" style="--v:75.7%"></span>76</td>
+  <td class="num up">+6,8 %</td>
+  <td><span class='muted'>SMA 10 unter 21</span> <span class='pill pc'>Kurs ↑ SMA 10/20</span></td>
+  <td class="num">Platz 351 <span class='muted'>· 48,5</span></td>
+  <td class="num"><span class='mv up' title='100 Plätze gestiegen'>▲100</span></td>
+  <td class="num"><span class='up' title='Wochen-SMI über Signallinie: dreht hoch'>↗</span> <span class='down'>-69</span> <span class='muted'>/</span> <span class='down'>-75</span></td>
+  <td class="num up"><b>2,8</b></td>
+</tr>
+<tr class="sc-row">
+  <td class="rk">3</td>
+  <td class="stock"><b>TKO <span class='pill sc'>Selling Climax</span> <span class='pill smi'>SMI oversold ↑</span></b><span>TKO Group Holdings</span></td>
+  <td class="num score" title="Punkte: Wochentrend 82 · MA-Kreuzung 0 · RSI-Position 44 · RSI-Plätze 90 · SMI 100 · CRV 64 · Selling Climax 100"><span class="bar" style="--v:75.5%"></span>75</td>
+  <td class="num up">+4,4 %</td>
+  <td><span class='muted'>SMA 10 unter 21</span> <span class='pill pc'>Kurs ↑ SMA 10/20</span></td>
+  <td class="num">Platz 285 <span class='muted'>· 53,9</span></td>
+  <td class="num"><span class='mv up' title='130 Plätze gestiegen'>▲130</span></td>
+  <td class="num"><span class='up' title='Wochen-SMI über Signallinie: dreht hoch'>↗</span> <span class='down'>-60</span> <span class='muted'>/</span> <span class='down'>-52</span></td>
+  <td class="num up"><b>2,4</b></td>
+</tr>
+<tr class="sc-row">
+  <td class="rk">4</td>
+  <td class="stock"><b>MGM <span class='pill sc'>Selling Climax</span></b><span>MGM Resorts</span></td>
+  <td class="num score" title="Punkte: Wochentrend 92 · MA-Kreuzung 0 · RSI-Position 24 · RSI-Plätze 88 · SMI 87 · CRV 99 · Selling Climax 100"><span class="bar" style="--v:75.4%"></span>75</td>
+  <td class="num up">+6,8 %</td>
+  <td><span class='muted'>SMA 10 unter 21</span></td>
+  <td class="num">Platz 383 <span class='muted'>· 45,4</span></td>
+  <td class="num"><span class='mv up' title='116 Plätze gestiegen'>▲116</span></td>
+  <td class="num"><span class='up' title='Wochen-SMI über Signallinie: dreht hoch'>↗</span> <span class='down'>-87</span> <span class='muted'>/</span> <span class=''>-30</span></td>
+  <td class="num up"><b>6,9</b></td>
+</tr>
+<tr class="sc-row">
+  <td class="rk">5</td>
+  <td class="stock"><b>CBRE <span class='pill sc'>Selling Climax</span></b><span>CBRE Group</span></td>
+  <td class="num score" title="Punkte: Wochentrend 82 · MA-Kreuzung 0 · RSI-Position 26 · RSI-Plätze 81 · SMI 100 · CRV 79 · Selling Climax 100"><span class="bar" style="--v:74.3%"></span>74</td>
+  <td class="num up">+4,5 %</td>
+  <td><span class='muted'>SMA 10 unter 21</span></td>
+  <td class="num">Platz 371 <span class='muted'>· 46,8</span></td>
+  <td class="num"><span class='mv up' title='82 Plätze gestiegen'>▲82</span></td>
+  <td class="num"><span class='muted' title='Wochen-SMI unter Signallinie: fallend'>↘</span> <span class='down'>-67</span> <span class='muted'>/</span> <span class='down'>-47</span></td>
+  <td class="num up"><b>3,2</b></td>
+</tr>
+<tr class="sc-row">
+  <td class="rk">6</td>
+  <td class="stock"><b>WYNN <span class='pill sc'>Selling Climax</span> <span class='pill smi'>SMI oversold ↑</span></b><span>Wynn Resorts</span></td>
+  <td class="num score" title="Punkte: Wochentrend 66 · MA-Kreuzung 0 · RSI-Position 20 · RSI-Plätze 77 · SMI 100 · CRV 99 · Selling Climax 100"><span class="bar" style="--v:73.6%"></span>74</td>
+  <td class="num up">+2,7 %</td>
+  <td><span class='muted'>SMA 10 unter 21</span></td>
+  <td class="num">Platz 402 <span class='muted'>· 43,2</span></td>
+  <td class="num"><span class='mv up' title='70 Plätze gestiegen'>▲70</span></td>
+  <td class="num"><span class='up' title='Wochen-SMI über Signallinie: dreht hoch'>↗</span> <span class='down'>-87</span> <span class='muted'>/</span> <span class='down'>-82</span></td>
+  <td class="num up"><b>6,9</b></td>
+</tr>
+<tr class="sc-row">
+  <td class="rk">7</td>
+  <td class="stock"><b>FSLR <span class='pill sc'>Selling Climax</span> <span class='pill smi'>SMI oversold ↑</span></b><span>First Solar</span></td>
+  <td class="num score" title="Punkte: Wochentrend 51 · MA-Kreuzung 0 · RSI-Position 22 · RSI-Plätze 60 · SMI 100 · CRV 98 · Selling Climax 100"><span class="bar" style="--v:70.2%"></span>70</td>
+  <td class="num up">+1,4 %</td>
+  <td><span class='muted'>SMA 10 unter 21</span></td>
+  <td class="num">Platz 393 <span class='muted'>· 44,0</span></td>
+  <td class="num"><span class='mv up' title='29 Plätze gestiegen'>▲29</span></td>
+  <td class="num"><span class='up' title='Wochen-SMI über Signallinie: dreht hoch'>↗</span> <span class='down'>-83</span> <span class='muted'>/</span> <span class='down'>-66</span></td>
+  <td class="num up"><b>6,5</b></td>
+</tr>
+<tr class="">
+  <td class="rk">8</td>
+  <td class="stock"><b>ARES</b><span>Ares Management</span></td>
+  <td class="num score" title="Punkte: Wochentrend 84 · MA-Kreuzung 100 · RSI-Position 70 · RSI-Plätze 92 · SMI 88 · CRV 72 · Selling Climax 0"><span class="bar" style="--v:65.9%"></span>66</td>
+  <td class="num up">+5,0 %</td>
+  <td><span class='pill up'>▲ Kreuzung Di</span></td>
+  <td class="num">Platz 154 <span class='muted'>· 63,7</span></td>
+  <td class="num"><span class='mv up' title='140 Plätze gestiegen'>▲140</span></td>
+  <td class="num"><span class='up' title='Wochen-SMI über Signallinie: dreht hoch'>↗</span> <span class='down'>-45</span> <span class='muted'>/</span> <span class=''>-30</span></td>
+  <td class="num up"><b>2,8</b></td>
+</tr>
+<tr class="">
+  <td class="rk">9</td>
+  <td class="stock"><b>IP</b><span>International Paper</span></td>
+  <td class="num score" title="Punkte: Wochentrend 96 · MA-Kreuzung 50 · RSI-Position 83 · RSI-Plätze 99 · SMI 94 · CRV 71 · Selling Climax 0"><span class="bar" style="--v:65.1%"></span>65</td>
+  <td class="num up">+9,6 %</td>
+  <td><span class='muted'>SMA 10 über 21</span></td>
+  <td class="num">Platz 89 <span class='muted'>· 67,7</span></td>
+  <td class="num"><span class='mv up' title='287 Plätze gestiegen'>▲287</span></td>
+  <td class="num"><span class='up' title='Wochen-SMI über Signallinie: dreht hoch'>↗</span> <span class='down'>-52</span> <span class='muted'>/</span> <span class=''>-35</span></td>
+  <td class="num up"><b>2,7</b></td>
+</tr>
+<tr class="">
+  <td class="rk">10</td>
+  <td class="stock"><b>KKR <span class='pill smi'>SMI oversold ↑</span></b><span>KKR &amp; Co.</span></td>
+  <td class="num score" title="Punkte: Wochentrend 73 · MA-Kreuzung 100 · RSI-Position 44 · RSI-Plätze 78 · SMI 100 · CRV 89 · Selling Climax 0"><span class="bar" style="--v:65.0%"></span>65</td>
+  <td class="num up">+3,3 %</td>
+  <td><span class='pill up'>▲ Kreuzung Mi</span></td>
+  <td class="num">Platz 281 <span class='muted'>· 54,2</span></td>
+  <td class="num"><span class='mv up' title='74 Plätze gestiegen'>▲74</span></td>
+  <td class="num"><span class='up' title='Wochen-SMI über Signallinie: dreht hoch'>↗</span> <span class='down'>-58</span> <span class='muted'>/</span> <span class='down'>-52</span></td>
+  <td class="num up"><b>4,0</b></td>
+</tr></tbody></table></div>
+  </div>
+  
+</section>
+</div>
+
+  <footer>
+    <details>
+      <summary>Methodik</summary>
+      <p><b>20-%-Regel:</b> Ein Bärenmarkt liegt vor, wenn der S&amp;P 500 auf Schlusskursbasis mindestens 20 % unter
+      sein letztes Hoch fällt. Er endet, sobald der Index wieder 20 % über seinem Tief schließt. Ab dann gilt ein
+      Bullenmarkt. Die Phase wird ab dem Hoch bzw. Tief datiert, an dem sie begann.<br>
+      <b>RSI:</b> Relative-Stärke-Index nach Wilder über 14 Handelstage auf Basis bereinigter Schlusskurse.
+      Je Index werden alle Mitglieder nach RSI sortiert. Die Platzveränderung vergleicht mit der vollständigen
+      Rangliste zum Schluss der Vorwoche. „neu“ bedeutet, dass die Aktie in der Vorwoche keinen Rang hatte.
+      Grundlage ist die aktuelle Indexzusammensetzung: Wikipedia für S&amp;P 500, Nasdaq 100 und Dow Jones,
+      iShares-IWM-Bestand für den Russell 2000. Beim Russell 2000 zählen nur Aktien mit einer
+      Marktkapitalisierung über 4 Mrd. $ und einem Tagesumsatz (letzter Kurs × Volumen) über 1 Mio. $.
+      Quelle dafür ist der Nasdaq-Screener.<br>
+      <b>Selling Climax:</b> Eine Aktie erscheint, wenn ihr Tagestief an einem Handelstag der Woche unter dem
+      tiefsten Tagestief der vorangegangenen 252 Handelstage liegt und ihr Schlusskurs am letzten Handelstag der
+      Woche über dem Eröffnungskurs am ersten Handelstag der Woche liegt. Aktien mit weniger als 240 Handelstagen
+      Historie (Neuemissionen) zählen nicht. „Volumen“ ist das Handelsvolumen am Tag des Tiefs geteilt durch den
+      Durchschnitt der 50 Tage davor. „seit Tief“ zeigt die Erholung vom Tief bis zum Wochenschluss.<br>
+      <b>Moving Average:</b> Einfache gleitende Durchschnitte der Schlusskurse über 10 und 21 Handelstage. Eine
+      Kreuzung liegt vor, wenn SMA 10 an einem Tag der Woche über SMA 21 schließt und am Vortag nicht darüber lag.
+      Kurs-Durchbruch: Schlusskurs am Vortag unter (oder auf) SMA 10 und SMA 20, am Tag selbst über beiden.<br>
+      <b>Stochastic Momentum Index:</b> Berechnung wie im TradingView-Indikator „Stochastic momentum index“ mit
+      %K 10, %D 3, EMA 3 auf Monats- und Wochenkerzen aus splitbereinigten Tagesdaten. Oversold heißt SMI unter −40. Gelistet werden
+      nur Aktien, deren Wochen-SMI über seiner Signallinie (EMA 3) liegt, die also hoch drehen.<br>
+      <b>Chance/Risiko:</b> Stopp = Schluss − 2 × ATR(14), Ziel = höchstes Hoch der letzten 3 Monate (bei weniger
+      als 3 × ATR Abstand: Schluss + 3 × ATR), CRV = Chance ÷ Risiko. RS-Rating = 40 % Performance 3 Monate + je 20 % 6, 9 und 12 Monate,
+      als Rang 1–99 im S&amp;P 500. Gezeigt werden die Aktien aus Highlight SP500. Backtest: Rendite 20 Handelstage
+      nach jedem historischen Signal in den letzten 5 Jahren, verglichen mit jeder Aktie in jeder Woche und mit dem
+      S&amp;P 500. Das SMI-Signal nutzt im Backtest den Monats-SMI des letzten abgeschlossenen Monats.<br>
+      <b>Highlight SP500:</b> Gewichteter Durchschnitt aus sieben Bausteinen von je 0–100 Punkten; SMI und Selling
+      Climax zählen doppelt, die übrigen einfach.
+      Wochentrend, RSI und RSI-Platzgewinn fließen als Perzentil-Rang im S&amp;P 500 ein. Die MA-Kreuzung bringt
+      100 Punkte (frische Kreuzung), 50 (SMA 10 über SMA 21) oder 0. Beim SMI gibt es je Zeitebene linear 0 Punkte
+      bei SMI ≥ 0 bis 100 bei SMI ≤ −40, gemittelt über Woche und Monat. Das CRV fließt als Perzentil-Rang ein,
+      Selling Climax mit 100 oder 0 Punkten.</p>
+    </details>
+    Datenquelle: Yahoo Finance (^GSPC) · erstellt am 31.10.2026 08:40 (Berlin) · Keine Anlageberatung.
+  </footer>
+</div>
+<script>
+(function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll(".tab"));
+  var panels = Array.prototype.slice.call(document.querySelectorAll(".tab-panel"));
+  if (!panels.length) return;
+  function show(id) {
+    if (!panels.some(function (p) { return p.id === id; })) id = panels[0].id;
+    panels.forEach(function (p) { p.hidden = p.id !== id; });
+    tabs.forEach(function (t) { t.setAttribute("aria-selected", t.hash === "#" + id ? "true" : "false"); });
+  }
+  tabs.forEach(function (t) {
+    t.addEventListener("click", function (e) {
+      e.preventDefault();
+      history.replaceState(null, "", t.hash);
+      show(t.hash.slice(1));
+    });
+  });
+  window.addEventListener("hashchange", function () { show(location.hash.slice(1)); });
+  show(location.hash.slice(1));
+})();
+</script>
+</body>
+</html>
